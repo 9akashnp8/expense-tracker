@@ -7,6 +7,7 @@ import {
 } from "react-router-dom"
 
 import Root from './routes/root'
+import Transactions, { loader as transactionsLoader } from './routes/transactions'
 
 const router = createBrowserRouter([
     {
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "transactions",
-                element: <h1>Transactions</h1>
+                element: <Transactions />,
+                loader: transactionsLoader
             }
         ]
     }
