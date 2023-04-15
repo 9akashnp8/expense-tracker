@@ -33,6 +33,17 @@ def get_categories():
     )
     return categories
 
+# Accounts Endpoints
+@app.get("/accounts")
+def get_accounts():
+    accounts = (
+        supabase
+        .table("account")
+        .select("name, type(name)")
+        .execute()
+    )
+    return accounts
+
 # Transaction Endpoints
 @app.get("/transactions")
 def get_transactions():
