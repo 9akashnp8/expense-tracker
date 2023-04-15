@@ -28,7 +28,7 @@ def get_categories():
     categories = (
         supabase
         .table("category")
-        .select("*")
+        .select('name, group(name)')
         .execute()
     )
     return categories
