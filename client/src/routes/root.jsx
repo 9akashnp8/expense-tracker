@@ -48,7 +48,7 @@ const Root = () => {
                         <Link to={"transactions"}>View All</Link>
                     </Menu.Item>
                     <Menu.Item key="2">
-                        <Link to={"#"}>Create</Link>
+                        <Link to={"transactions/create"}>Create</Link>
                     </Menu.Item>
                     <Menu.Item key="3">
                         <Link to={"#"}>Insights</Link>

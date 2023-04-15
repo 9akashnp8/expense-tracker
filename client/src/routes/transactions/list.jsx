@@ -2,10 +2,10 @@ import { useLoaderData } from "react-router-dom";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css"
 
-import TransactionTable from "../components/TransactionTable";
-import { fetchTransactions } from "../lib/dataFetch";
+import TransactionTable from "../../components/TransactionTable";
+import { fetchTransactions } from "../../lib/dataFetch";
 
-export default function Transactions() {
+export default function ListTransactions() {
     const transactions = useLoaderData();
     return <TransactionTable transactions={transactions}/>
 }
