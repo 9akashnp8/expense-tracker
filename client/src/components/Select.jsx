@@ -5,12 +5,19 @@ import ListSubheader from '@mui/material/ListSubheader';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-export default function GroupedSelect({ label, options}) {
+export default function GroupedSelect({ label, id, value, handleChange}) {
     return (
         <div>
             <FormControl sx={{ width: '100%', minWidth: 120 }}>
                 <InputLabel htmlFor="grouped-select">{label}</InputLabel>
-                <Select defaultValue="" id="grouped-select" label="Grouping">
+                <Select
+                    defaultValue=""
+                    id={id}
+                    name={id}
+                    label="Grouping"
+                    onChange={handleChange}
+                    value={value}
+                >
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>

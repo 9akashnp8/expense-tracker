@@ -12,7 +12,7 @@ import {
 import { darkTheme } from './lib/theme';
 import Root from './routes/root'
 import ListTransactions, { loader as transactionsLoader } from './routes/transactions/list'
-import TransactionForm, { loader as categoryLoader } from './routes/transactions/create.'
+import TransactionForm, { loader as categoryLoader } from './routes/transactions/create'
 
 const router = createBrowserRouter([
     {
