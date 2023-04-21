@@ -1,30 +1,55 @@
+import { useState } from "react";
+
 import { useLoaderData } from "react-router-dom";
 import { useFormik } from 'formik';
 
 import BasicDateTimePicker from "../../components/BasicDateTimePicker";
 import BasicSelect from "../../components/Select";
+import { Alert } from "../../components/Alert";
 import { fetchCategories, fetchAccounts } from "../../lib/dataFetch";
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import Snackbar from '@mui/material/Snackbar';
 
 export default function TransactionForm() {
+    const [open, setOpen] = useState(false);
     const { categories, accounts } = useLoaderData()
     const formik = useFormik({
         initialValues: {
             item: '',
             amount: '',
-            transactionDate: null,
+            transaction_date_time: null,
             category: '',
             account: '',
             label: '',
             notes: ''
         },
-        onSubmit: values => {
-            alert(JSON.stringify(values, null, 2));
+        onSubmit: async function (values) {
+            console.log(values)
+
+            const response = await fetch('http://127.0.0.1:8000/transactions', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(values, null, 4)
+            })
+
+            if (response.ok) {
+                setOpen(true);
+            }
         },
     })
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
     return (
         <Box
@@ -99,6 +124,11 @@ export default function TransactionForm() {
             >
                 Create
             </Button>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
+                <Alert onClose={handleClose} severity="success" sx={{ width: '100%' }}>
+                    Transaction has been successfully created!
+                </Alert>
+            </Snackbar>
         </Box>
     );
 }
