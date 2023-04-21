@@ -2,7 +2,7 @@ import { useLoaderData } from "react-router-dom";
 import { useFormik } from 'formik';
 
 import BasicDateTimePicker from "../../components/BasicDateTimePicker";
-import GroupedSelect from "../../components/Select";
+import BasicSelect from "../../components/Select";
 import { fetchCategories, fetchAccounts } from "../../lib/dataFetch";
 
 import Box from '@mui/material/Box';
@@ -10,13 +10,14 @@ import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 
 export default function TransactionForm() {
+    const { categories, accounts } = useLoaderData()
     const formik = useFormik({
         initialValues: {
             item: '',
             amount: '',
             transactionDate: null,
-            category: null,
-            account: null,
+            category: '',
+            account: '',
             label: '',
             notes: ''
         },
@@ -62,17 +63,19 @@ export default function TransactionForm() {
                 label={'Transaction Date'}
                 formik={formik}
             />
-            <GroupedSelect
-                label='Category'
+            <BasicSelect
                 id='category'
-                handleChange={formik.handleChange}
+                label='Category'
+                data={categories}
                 value={formik.values.category}
-            />
-            <GroupedSelect
-                label='Account'
-                id='account'
                 handleChange={formik.handleChange}
+            />
+            <BasicSelect
+                id='account'
+                label='Account'
+                data={accounts}
                 value={formik.values.account}
+                handleChange={formik.handleChange}
             />
             <TextField
                 id="label"
