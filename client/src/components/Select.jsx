@@ -17,7 +17,7 @@ export default function BasicSelect({ id, label, data, value, handleChange }) {
             value={value}
             onChange={handleChange}
         >
-            {data ? data.map((item) => <MenuItem value={item.name}>{item.name}</MenuItem>): null}
+            {data ? data.map((item) => <MenuItem key={item.id} value={item.id}>{item.name}</MenuItem>): null}
         </TextField>
     );
 }
