@@ -28,7 +28,7 @@ def get_categories():
     categories = (
         supabase
         .table("category")
-        .select('name, group(name)')
+        .select('id, name')
         .execute()
     )
     return categories
@@ -39,7 +39,7 @@ def get_accounts():
     accounts = (
         supabase
         .table("account")
-        .select("name, type(name)")
+        .select("id, name")
         .execute()
     )
     return accounts
