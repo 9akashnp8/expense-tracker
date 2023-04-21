@@ -10,6 +10,8 @@ packages = [{include = "expense_tracker"}]
 [tool.poetry.dependencies]
 python = "^3.8"
 python-decouple = "^3.8"
+django = "^4.2"
+djangorestframework = "^3.14.0"
 
 
 [build-system]
