@@ -8,12 +8,12 @@ export default function BasicDateTimePicker({ label, formik }) {
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DatePicker
                 label={label}
-                value={formik.values.transactionDate}
-                onChange={(date) => formik.setFieldValue('transactionDate', date)}
+                value={formik.values.transaction_date_time}
+                onChange={(date) => formik.setFieldValue('transaction_date_time', date)}
                 renderInput={(params) => (
                     <TextField
-                        id='transactionDate'
-                        name='transactionDate'
+                        id='transaction_date_time'
+                        name='transaction_date_time'
                         {...params}
                     />
                 )}
