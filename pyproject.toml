@@ -9,9 +9,6 @@ packages = [{include = "expense_tracker"}]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-fastapi = "^0.95.0"
-uvicorn = {extras = ["standard"], version = "^0.21.1"}
-supabase = "^1.0.2"
 python-decouple = "^3.8"
 
 
