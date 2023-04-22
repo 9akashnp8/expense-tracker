@@ -43,7 +43,7 @@ class Transaction(models.Model):
     txn_date_time = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(Category, null=True, on_delete=models.SET_NULL)
     account = models.ForeignKey(Account, null=True, on_delete=models.SET_NULL)
-    label = models.ManyToManyField(Label)
+    label = models.ManyToManyField(Label, blank=True)
     notes = models.CharField(max_length=255, null=True, blank=True)
     created_on = models.DateField(auto_now_add=True)
 
