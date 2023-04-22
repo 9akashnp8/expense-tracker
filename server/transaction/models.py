@@ -12,7 +12,7 @@ class CategoryGroup(models.Model):
     is_expense = models.BooleanField()
     is_budgeted = models.BooleanField()
     budget_type = models.CharField(max_length=100, null=True, blank=True)
-    budget = models.DecimalField(max_digits=4, decimal_places=2)
+    budget = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
     created_on = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
@@ -24,7 +24,7 @@ class Category(models.Model):
     group = models.ForeignKey(CategoryGroup, null=True, on_delete=models.SET_NULL)
     is_budgeted = models.BooleanField()
     budget_type = models.CharField(max_length=100, null=True, blank=True)
-    budget = models.DecimalField(max_digits=4, decimal_places=2)
+    budget = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
     created_on = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
