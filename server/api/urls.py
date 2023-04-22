@@ -6,7 +6,9 @@ from .views import (
     AccountViewSet,
     AccountTypeViewSet,
     CategoryViewSet,
-    CategoryGroupViewSet
+    CategoryGroupViewSet,
+    LabelViewSet,
+    TransactionViewSet
 )
 
 # Routes go here
@@ -16,5 +18,7 @@ router.register(r'account', AccountViewSet)
 router.register(r'account-type', AccountTypeViewSet)
 router.register(r'category', CategoryViewSet)
 router.register(r'category-group', CategoryGroupViewSet)
+router.register(r'label', LabelViewSet)
+router.register(r'transaction', TransactionViewSet)
 
 urlpatterns = router.urls

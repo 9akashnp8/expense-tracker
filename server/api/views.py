@@ -6,10 +6,12 @@ from .serializers import (
     AccountSerializer,
     AccountTypeSerializer,
     CategorySerializer,
-    CategoryGroupSerializer
+    CategoryGroupSerializer,
+    LabelSerializer,
+    Transactionserializer
 )
 from account.models import Account, AccountType
-from transaction.models import Category, CategoryGroup
+from transaction.models import Category, CategoryGroup, Label, Transaction
 
 # Create your views here.
 class AccountViewSet(ModelViewSet):
@@ -27,3 +29,11 @@ class CategoryViewSet(ModelViewSet):
 class CategoryGroupViewSet(ModelViewSet):
     serializer_class = CategoryGroupSerializer
     queryset = CategoryGroup.objects.all()
+
+class LabelViewSet(ModelViewSet):
+    serializer_class = LabelSerializer
+    queryset = Label.objects.all()
+
+class TransactionViewSet(ModelViewSet):
+    serializer_class = Transactionserializer
+    queryset = Transaction.objects.all()
