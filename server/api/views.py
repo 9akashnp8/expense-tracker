@@ -11,6 +11,7 @@ from .serializers import (
     Transactionserializer
 )
 from account.models import Account, AccountType
+from account.functions import update_account_balance
 from transaction.models import Category, CategoryGroup, Label, Transaction
 
 # Create your views here.
@@ -37,3 +38,14 @@ class LabelViewSet(ModelViewSet):
 class TransactionViewSet(ModelViewSet):
     serializer_class = Transactionserializer
     queryset = Transaction.objects.all()
+
+    def perform_create(self, serializer):
+        """
+        update latest_balance of given account post transaction
+        """
+        category = serializer.validated_data.get('category')
+        if category.group.is_expense:
+            account = serializer.validated_data.get('account')
+            amount = serializer.validated_data.get('amount')
+            update_account_balance(account=account, amount=amount)
+        super().perform_create(serializer)
