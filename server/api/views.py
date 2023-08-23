@@ -1,5 +1,9 @@
+# Django Imports
+from django.db.models import Sum
+
 # DRF Imports
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import ListAPIView
 
 # Internal App Imports
 from .serializers import (
@@ -8,7 +12,8 @@ from .serializers import (
     CategorySerializer,
     CategoryGroupSerializer,
     LabelSerializer,
-    Transactionserializer
+    Transactionserializer,
+    CategoryChartSerializer
 )
 from account.models import Account, AccountType
 from account.functions import update_account_balance
@@ -49,3 +54,13 @@ class TransactionViewSet(ModelViewSet):
             amount = serializer.validated_data.get('amount')
             update_account_balance(account=account, amount=amount)
         super().perform_create(serializer)
+
+# Chart APIs
+class CategoryChart(ListAPIView):
+    serializer_class = CategoryChartSerializer
+    queryset = (
+        Category.objects
+        .annotate(
+            total_spent=Sum('transaction__amount')
+        )
+    )

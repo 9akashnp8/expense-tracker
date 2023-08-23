@@ -1,3 +1,6 @@
+# Django Imports
+from django.urls import path
+
 # DRF Imports
 from rest_framework.routers import DefaultRouter
 
@@ -8,7 +11,8 @@ from .views import (
     CategoryViewSet,
     CategoryGroupViewSet,
     LabelViewSet,
-    TransactionViewSet
+    TransactionViewSet,
+    CategoryChart
 )
 
 # Routes go here
@@ -21,4 +25,6 @@ router.register(r'category-group', CategoryGroupViewSet)
 router.register(r'label', LabelViewSet)
 router.register(r'transaction', TransactionViewSet)
 
-urlpatterns = router.urls
+urlpatterns = [
+    path('category-chart/', CategoryChart.as_view(), name='category_chart'),
+] + router.urls

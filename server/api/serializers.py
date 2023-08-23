@@ -1,5 +1,5 @@
 # DRF Imports
-from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField
+from rest_framework.serializers import ModelSerializer, PrimaryKeyRelatedField, IntegerField
 
 # Internal App Imports
 from account.models import Account, AccountType
@@ -41,3 +41,7 @@ class Transactionserializer(ModelSerializer):
     class Meta:
         model = Transaction
         fields = '__all__'
+
+# Chart Serializers
+class CategoryChartSerializer(CategorySerializer):
+    total_spent = IntegerField()
