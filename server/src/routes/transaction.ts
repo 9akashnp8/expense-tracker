@@ -1,7 +1,7 @@
-import express, { Request, Response} from 'express';
+import express from 'express';
+
+import { getTransaction } from '../controllers/transaction/index.js';
 
 export const router = express.Router()
 
-router.get("/", (req: Request, res: Response) => {
-    res.send("Transactions Root")
-})
+router.get("/", getTransaction)

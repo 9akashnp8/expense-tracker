@@ -1,7 +1,7 @@
-import express, { Request, Response} from 'express';
+import express from 'express';
+
+import { getLabel } from '../controllers/label/index.js';
 
 export const router = express.Router()
 
-router.get("/", (req: Request, res: Response) => {
-    res.send("Label Root")
-})
+router.get("/", getLabel)

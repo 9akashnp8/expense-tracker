@@ -1,7 +1,7 @@
-import express, { Request, Response} from 'express';
+import express from 'express';
+
+import { getCategoryGroup } from '../controllers/categoryGroup/index.js';
 
 export const router = express.Router()
 
-router.get("/", (req: Request, res: Response) => {
-    res.send("Category Group Root")
-})
+router.get("/", getCategoryGroup)
