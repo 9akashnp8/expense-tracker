@@ -1,12 +1,7 @@
-import express, { Request, Response} from 'express';
-import { supabase } from '../lib/supabase.js';
+import express from 'express';
+
+import { getAccounts } from '../controllers/account';
 
 export const router = express.Router()
 
-router.get('/', async (req: Request, res: Response) => {
-    const { data, error } = await supabase
-        .from('account')
-        .select()
-
-    res.json(data)
-})
+router.get('/', getAccounts)
