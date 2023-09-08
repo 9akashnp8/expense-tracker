@@ -1,7 +1,17 @@
 import express from 'express';
 
-import { getTransaction } from '../controllers/transaction/index.js';
+import {
+    listTransaction,
+    getTransaction,
+    createTransaction,
+    updateTransaction,
+    deleteTransaction
+} from '../controllers/transaction/index.js';
 
 export const router = express.Router()
 
-router.get("/", getTransaction)
+router.get("/", listTransaction)
+router.post("/", createTransaction)
+router.get("/:id", getTransaction)
+router.patch("/:id", updateTransaction)
+router.delete("/:id", deleteTransaction)
