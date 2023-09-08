@@ -1,20 +1,20 @@
 import { Request, Response } from "express";
-import { supabase } from "../../lib/supabase.js";
-import { createSuccessResponse, createFailureResponse } from "../../utils/response.js";
+import { supabase } from "../../common/supabase.js";
+import { createSuccessResponse, createFailureResponse } from "../../common/utils/response.js";
 
-export async function listTransaction(req: Request, res: Response) {
+export async function listLabel(req: Request, res: Response) {
     const { data, error } = await supabase
-        .from('transaction')
+        .from('label')
         .select()
 
     if (error) return createFailureResponse(req, res, 500)
     return createSuccessResponse(req, res, 200, "", data)
 }
 
-export async function getTransaction(req: Request<{ id: string}>, res: Response) {
+export async function getLabel(req: Request<{ id: string}>, res: Response) {
     const { id } = req.params
     const { data, error } = await supabase
-        .from('transaction')
+        .from('label')
         .select()
         .eq('id', id)
 
@@ -23,21 +23,21 @@ export async function getTransaction(req: Request<{ id: string}>, res: Response)
     return createSuccessResponse(req, res, 200, "", data)
 }
 
-export async function createTransaction(req: Request<{ id: string}>, res: Response) {
+export async function createLabel(req: Request<{ id: string}>, res: Response) {
     const body = req.body
     const { error } = await supabase
-        .from('transaction')
+        .from('label')
         .insert(body)
 
     if (error) return createFailureResponse(req, res, 500, "", error)
     return createSuccessResponse(req, res, 201, "", body)
 }
 
-export async function updateTransaction(req: Request, res: Response) {
+export async function updateLabel(req: Request, res: Response) {
     const { id } = req.params
     const body = req.body
     const { error } = await supabase
-        .from('transaction')
+        .from('label')
         .update(body)
         .eq('id', id)
 
@@ -45,10 +45,10 @@ export async function updateTransaction(req: Request, res: Response) {
     return createSuccessResponse(req, res, 204)
 }
 
-export async function deleteTransaction(req: Request, res: Response) {
+export async function deleteLabel(req: Request, res: Response) {
     const { id } = req.params
     const { error } = await supabase
-        .from('transaction')
+        .from('label')
         .delete()
         .eq('id', id)
 

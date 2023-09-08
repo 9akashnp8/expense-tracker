@@ -1,20 +1,20 @@
 import { Request, Response } from "express";
-import { supabase } from "../../lib/supabase.js";
-import { createSuccessResponse, createFailureResponse } from "../../utils/response.js";
+import { supabase } from "../../common/supabase.js";
+import { createSuccessResponse, createFailureResponse } from "../../common/utils/response.js";
 
-export async function listCategoryGroup(req: Request, res: Response) {
+export async function listTransaction(req: Request, res: Response) {
     const { data, error } = await supabase
-        .from('category_group')
+        .from('transaction')
         .select()
 
     if (error) return createFailureResponse(req, res, 500)
     return createSuccessResponse(req, res, 200, "", data)
 }
 
-export async function getCategoryGroup(req: Request<{ id: string}>, res: Response) {
+export async function getTransaction(req: Request<{ id: string}>, res: Response) {
     const { id } = req.params
     const { data, error } = await supabase
-        .from('category_group')
+        .from('transaction')
         .select()
         .eq('id', id)
 
@@ -23,21 +23,21 @@ export async function getCategoryGroup(req: Request<{ id: string}>, res: Respons
     return createSuccessResponse(req, res, 200, "", data)
 }
 
-export async function createCategoryGroup(req: Request<{ id: string}>, res: Response) {
+export async function createTransaction(req: Request<{ id: string}>, res: Response) {
     const body = req.body
     const { error } = await supabase
-        .from('category_group')
+        .from('transaction')
         .insert(body)
 
     if (error) return createFailureResponse(req, res, 500, "", error)
     return createSuccessResponse(req, res, 201, "", body)
 }
 
-export async function updateCategoryGroup(req: Request, res: Response) {
+export async function updateTransaction(req: Request, res: Response) {
     const { id } = req.params
     const body = req.body
     const { error } = await supabase
-        .from('category_group')
+        .from('transaction')
         .update(body)
         .eq('id', id)
 
@@ -45,10 +45,10 @@ export async function updateCategoryGroup(req: Request, res: Response) {
     return createSuccessResponse(req, res, 204)
 }
 
-export async function deleteCategoryGroup(req: Request, res: Response) {
+export async function deleteTransaction(req: Request, res: Response) {
     const { id } = req.params
     const { error } = await supabase
-        .from('category_group')
+        .from('transaction')
         .delete()
         .eq('id', id)
 

@@ -1,20 +1,21 @@
-import { Request, Response } from "express";
-import { supabase } from "../../lib/supabase.js";
-import { createSuccessResponse, createFailureResponse } from "../../utils/response.js";
+import { Request, Response} from 'express';
+import { supabase } from '../../common/supabase.js';
+import { createSuccessResponse, createFailureResponse } from '../../common/utils/response.js';
 
-export async function listLabel(req: Request, res: Response) {
+
+export async function listAccounts(req: Request, res: Response) {
     const { data, error } = await supabase
-        .from('label')
+        .from('account')
         .select()
 
     if (error) return createFailureResponse(req, res, 500)
     return createSuccessResponse(req, res, 200, "", data)
 }
 
-export async function getLabel(req: Request<{ id: string}>, res: Response) {
+export async function getAccount(req: Request<{ id: string}>, res: Response) {
     const { id } = req.params
     const { data, error } = await supabase
-        .from('label')
+        .from('account')
         .select()
         .eq('id', id)
 
@@ -23,21 +24,21 @@ export async function getLabel(req: Request<{ id: string}>, res: Response) {
     return createSuccessResponse(req, res, 200, "", data)
 }
 
-export async function createLabel(req: Request<{ id: string}>, res: Response) {
+export async function createAccount(req: Request<{ id: string}>, res: Response) {
     const body = req.body
     const { error } = await supabase
-        .from('label')
+        .from('account')
         .insert(body)
 
     if (error) return createFailureResponse(req, res, 500, "", error)
     return createSuccessResponse(req, res, 201, "", body)
 }
 
-export async function updateLabel(req: Request, res: Response) {
+export async function updateAccount(req: Request, res: Response) {
     const { id } = req.params
     const body = req.body
     const { error } = await supabase
-        .from('label')
+        .from('account')
         .update(body)
         .eq('id', id)
 
@@ -45,10 +46,10 @@ export async function updateLabel(req: Request, res: Response) {
     return createSuccessResponse(req, res, 204)
 }
 
-export async function deleteLabel(req: Request, res: Response) {
+export async function deleteAccount(req: Request, res: Response) {
     const { id } = req.params
     const { error } = await supabase
-        .from('label')
+        .from('account')
         .delete()
         .eq('id', id)
 

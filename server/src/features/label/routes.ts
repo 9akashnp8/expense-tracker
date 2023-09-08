@@ -6,7 +6,7 @@ import {
     createLabel,
     updateLabel,
     deleteLabel
-} from '../controllers/label/index.js';
+} from './controller/index.js';
 
 export const router = express.Router()
 

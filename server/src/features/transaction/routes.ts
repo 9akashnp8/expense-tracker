@@ -6,7 +6,7 @@ import {
     createTransaction,
     updateTransaction,
     deleteTransaction
-} from '../controllers/transaction/index.js';
+} from './controller/index.js';
 
 export const router = express.Router()
 

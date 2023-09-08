@@ -6,7 +6,7 @@ import {
     createCategoryGroup,
     updateCategoryGroup,
     deleteCategoryGroup
-} from '../controllers/categoryGroup/index.js';
+} from './controller/index.js';
 
 export const router = express.Router()
 

@@ -2,7 +2,7 @@ import express, { Express } from 'express';
 import 'dotenv/config';
 
 
-import { router } from './routes/index.js';
+import { router } from './features/common/routes.js';
 
 const PORT = 3000
 

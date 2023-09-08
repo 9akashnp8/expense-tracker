@@ -6,7 +6,7 @@ import {
     createAccountType,
     updateAccountType,
     deleteAccountType
-} from '../controllers/accountType/index.js';
+} from './controller/index.js';
 
 export const router = express.Router()
 
