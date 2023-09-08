@@ -8,6 +8,7 @@ import { router as categoryRouter } from './category.js';
 import { router as labelRouter } from './label.js';
 
 export const router: Router = express.Router()
+router.use(express.json())
 
 router.use('/account', accountRouter)
 router.use('/transaction', transactionRouter)
