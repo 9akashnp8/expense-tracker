@@ -1,11 +1,17 @@
 import express from 'express';
 
-import { getAccount, listAccounts, createAccount, updateAccount, deleteAccount } from './controller/index.js';
+import {
+  getAccountController,
+  listAccountsController,
+  createAccountController,
+  updateAccountController,
+  deleteAccountController,
+} from "./controller/index.js";
 
 export const router = express.Router()
 
-router.get('/', listAccounts)
-router.post('/', createAccount)
-router.get('/:id', getAccount)
-router.patch('/:id', updateAccount)
-router.delete('/:id', deleteAccount)
+router.get('/', listAccountsController)
+router.post('/', createAccountController)
+router.get('/:id', getAccountController)
+router.patch('/:id', updateAccountController)
+router.delete('/:id', deleteAccountController)
