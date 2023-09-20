@@ -1,9 +1,9 @@
-import express, { Express } from 'express';
-import cors from 'cors';
-import 'dotenv/config';
+import express, { Express } from "express";
+import cors from "cors";
+import "dotenv/config";
 
 
-import { router } from './features/common/routes.js';
+import { router } from "./features/common/routes.js";
 
 const PORT = 3000
 

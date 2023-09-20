@@ -14,7 +14,7 @@ export function createSuccessResponse(
     res: Response,
     status: 200 | 201 | 204,
     message: string = "",
-    body: any = {} // TODO: change this
+    body:  object | object[] | null = {} // TODO: improve this
 ) {
     res.status(status).json({status: "success", message: message, data: body})
 }
@@ -33,7 +33,7 @@ export function createFailureResponse(
     res: Response,
     status: 400 | 404 | 500,
     message: string = "",
-    body: any = {} // TODO: change this
+    body: object | object[] | null = {} // TODO: improve this
 ) {
     res.status(status).json({status: "failure", message: message, data: body})
 }
