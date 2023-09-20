@@ -1,5 +1,10 @@
 import { supabase } from '../../common/supabase.js';
 
+import {
+    Account,
+    AccountUpdatePayload
+} from '../types.js';
+
 export async function listAccounts() {
     const { data, error } = await supabase
         .from('account')
@@ -17,7 +22,7 @@ export async function getAccount(id: string) {
     return { data, error }
 }
 
-export async function createAccount(body: any) { // TODO: Change this
+export async function createAccount(body: Account) { // TODO: Change this
     const { error } = await supabase
         .from('account')
         .insert(body)
@@ -25,7 +30,7 @@ export async function createAccount(body: any) { // TODO: Change this
     return { error }
 }
 
-export async function updateAccount(id: string, body: any) {
+export async function updateAccount(id: string, body: AccountUpdatePayload) {
     const { error } = await supabase
         .from('account')
         .update(body)
