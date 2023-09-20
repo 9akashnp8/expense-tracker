@@ -19,7 +19,7 @@ export async function getAccount(id: string) {
         .select()
         .eq("id", id)
 
-    return { data, error }
+return { data, error }
 }
 
 
