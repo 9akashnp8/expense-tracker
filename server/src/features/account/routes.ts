@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 
 import {
     getAccountController,
@@ -10,8 +10,8 @@ import {
 
 export const router = express.Router()
 
-router.get('/', listAccountsController)
-router.post('/', createAccountController)
-router.get('/:id', getAccountController)
-router.patch('/:id', updateAccountController)
-router.delete('/:id', deleteAccountController)
+router.get("/", listAccountsController)
+router.post("/", createAccountController)
+router.get("/:id", getAccountController)
+router.patch("/:id", updateAccountController)
+router.delete("/:id", deleteAccountController)

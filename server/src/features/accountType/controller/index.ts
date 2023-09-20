@@ -4,7 +4,7 @@ import { createSuccessResponse, createFailureResponse } from "../../common/utils
 
 export async function listAccountType(req: Request, res: Response) {
     const { data, error } = await supabase
-        .from('account_type')
+        .from("account_type")
         .select()
 
     if (error) return createFailureResponse(req, res, 500)
@@ -14,9 +14,9 @@ export async function listAccountType(req: Request, res: Response) {
 export async function getAccountType(req: Request<{ id: string}>, res: Response) {
     const { id } = req.params
     const { data, error } = await supabase
-        .from('account_type')
+        .from("account_type")
         .select()
-        .eq('id', id)
+        .eq("id", id)
 
     if (error) return createFailureResponse(req, res, 500)
     else if (!data?.length) return createFailureResponse(req, res, 404, "not-found")
@@ -26,7 +26,7 @@ export async function getAccountType(req: Request<{ id: string}>, res: Response)
 export async function createAccountType(req: Request<{ id: string}>, res: Response) {
     const body = req.body
     const { error } = await supabase
-        .from('account_type')
+        .from("account_type")
         .insert(body)
 
     if (error) return createFailureResponse(req, res, 500, "", error)
@@ -37,9 +37,9 @@ export async function updateAccountType(req: Request, res: Response) {
     const { id } = req.params
     const body = req.body
     const { error } = await supabase
-        .from('account_type')
+        .from("account_type")
         .update(body)
-        .eq('id', id)
+        .eq("id", id)
 
     if (error) return createFailureResponse(req, res, 500, "", error)
     return createSuccessResponse(req, res, 204)
@@ -48,9 +48,9 @@ export async function updateAccountType(req: Request, res: Response) {
 export async function deleteAccountType(req: Request, res: Response) {
     const { id } = req.params
     const { error } = await supabase
-        .from('account_type')
+        .from("account_type")
         .delete()
-        .eq('id', id)
+        .eq("id", id)
 
     if (error) return createFailureResponse(req, res, 500, "", error)
     return createSuccessResponse(req, res, 204)

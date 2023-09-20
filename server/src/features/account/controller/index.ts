@@ -1,26 +1,26 @@
-import { Request, Response} from 'express';
+import { Request, Response} from "express";
 import {
     createSuccessResponse,
     createFailureResponse
-} from '../../common/utils/response.js';
+} from "../../common/utils/response.js";
 import {
     listAccounts,
     getAccount,
     createAccount,
     updateAccount,
     deleteAccount
-} from '../service/index.js';
-import { Account } from '../types.js';
-import { logger as rootLogger } from '../../common/utils/logger.js';
+} from "../service/index.js";
+import { Account } from "../types.js";
+import { logger as rootLogger } from "../../common/utils/logger.js";
 
-const logger = rootLogger.child({ feature: 'account' })
+const logger = rootLogger.child({ feature: "account" })
 
 export async function listAccountsController(req: Request, res: Response) {
     const { data, error } = await listAccounts();
 
     if (error) {
         logger.error({
-            message: 'error when querying accounts',
+            message: "error when querying accounts",
             error: error,
         })
         return createFailureResponse(req, res, 500)
@@ -52,7 +52,7 @@ export async function createAccountController(req: Request, res: Response) {
 
     if (error) {
         logger.error({
-            message: `error when creating account`,
+            message: "error when creating account",
             requestPayload: body,
             error: error,
         })

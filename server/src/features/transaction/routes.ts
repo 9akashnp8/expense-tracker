@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 
 import {
     listTransaction,
@@ -6,7 +6,7 @@ import {
     createTransaction,
     updateTransaction,
     deleteTransaction
-} from './controller/index.js';
+} from "./controller/index.js";
 
 export const router = express.Router()
 
