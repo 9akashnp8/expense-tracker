@@ -1,4 +1,4 @@
-import { supabase } from '../../common/supabase.js';
+import { supabase } from '../../common/supabase.ts';
 
 export async function listAccounts() {
     const { data, error } = await supabase

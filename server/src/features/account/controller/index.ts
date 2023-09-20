@@ -2,16 +2,16 @@ import { Request, Response} from 'express';
 import {
     createSuccessResponse,
     createFailureResponse
-} from '../../common/utils/response.js';
+} from '../../common/utils/response.ts';
 import {
     listAccounts,
     getAccount,
     createAccount,
     updateAccount,
     deleteAccount
-} from '../service/index.js';
-import { Account } from '../types.js';
-import { logger as rootLogger } from '../../common/utils/logger.js';
+} from '../service/index.ts';
+import { Account } from '../types.ts';
+import { logger as rootLogger } from '../../common/utils/logger.ts';
 
 const logger = rootLogger.child({ feature: 'account' })
 
