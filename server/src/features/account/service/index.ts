@@ -19,7 +19,7 @@ export async function getAccount(id: string) {
         .select()
         .eq("id", id)
 
- return { data, error }
+  return { data, error }
 }
 
 
@@ -28,7 +28,7 @@ export async function createAccount(body: Account) { // TODO: Change this
         .from("account")
         .insert(body)
 
-    return { error }
+ return { error }
 }
 
 export async function updateAccount(id: string, body: AccountUpdatePayload) {
