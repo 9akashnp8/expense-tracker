@@ -1,50 +1,37 @@
-import { supabase } from "../../common/supabase.js";
+import { supabase } from "../../common/supabase.ts";
 
-import {
-    Account,
-    AccountUpdatePayload
-} from "../types.js";
+import { Account, AccountUpdatePayload } from "../types.js";
 
 export async function listAccounts() {
-    const { data, error } = await supabase
-        .from("account")
-        .select()
-    
-    return { data, error }
+    const { data, error } = await supabase.from("account").select();
+
+    return { data, error };
 }
 
 export async function getAccount(id: string) {
     const { data, error } = await supabase
         .from("account")
         .select()
-        .eq("id", id)
+        .eq("id", id);
 
-  return { data, error }
+    return { data, error };
 }
 
+export async function createAccount(body: Account) {
+    // TODO: Change this
+    const { error } = await supabase.from("account").insert(body);
 
-export async function createAccount(body: Account) { // TODO: Change this
-    const { error } = await supabase
-        .from("account")
-        .insert(body)
-
- return { error }
+    return { error };
 }
 
 export async function updateAccount(id: string, body: AccountUpdatePayload) {
-    const { error } = await supabase
-        .from("account")
-        .update(body)
-        .eq("id", id)
+    const { error } = await supabase.from("account").update(body).eq("id", id);
 
-    return { error }
+    return { error };
 }
 
 export async function deleteAccount(id: string) {
-    const { error } = await supabase
-        .from("account")
-        .delete()
-        .eq("id", id)
+    const { error } = await supabase.from("account").delete().eq("id", id);
 
-    return { error }
+    return { error };
 }
