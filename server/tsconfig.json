@@ -1,11 +1,19 @@
 {
+  "exclude": ["./coverage", "./dist", "jest.config.js"],
+  "ts-node": {
+    "transpileOnly": true,
+    "files": true
+  },
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "target": "ES2020",
     "sourceMap": true,
     "strict": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "esModuleInterop": true, // fix ts-jest TS151001
+    "noEmit": true, // required for allowImportingTsExtensions
+    "allowImportingTsExtensions": true,
   },
   "include": ["src/**/*"],
 }
