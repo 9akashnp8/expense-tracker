@@ -15,14 +15,8 @@
   "lint-staged": {
     "*.ts": [
       "prettier --parser typescript --write",
-      "npm format --fix",
-      "git add"
+      "npm run format"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "author": "9akashnp8",
   "license": "ISC",
