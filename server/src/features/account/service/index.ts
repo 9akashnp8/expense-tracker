@@ -22,6 +22,7 @@ export async function getAccount(id: string) {
     return { data, error }
 }
 
+
 export async function createAccount(body: Account) { // TODO: Change this
     const { error } = await supabase
         .from("account")
