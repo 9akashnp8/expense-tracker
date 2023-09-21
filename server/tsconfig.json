@@ -12,8 +12,6 @@
     "strict": true,
     "outDir": "dist",
     "esModuleInterop": true, // fix ts-jest TS151001
-    "noEmit": true, // required for allowImportingTsExtensions
-    "allowImportingTsExtensions": true,
   },
   "include": ["src/**/*"],
 }

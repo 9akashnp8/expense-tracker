@@ -1,5 +1,5 @@
 import { createClient, PostgrestError } from "@supabase/supabase-js";
-import { Database } from "../../../database.types.ts";
+import { Database } from "../../../database.types.js";
 
 export type DbResult<T> = T extends PromiseLike<infer U> ? U : never;
 export type DbResultOk<T> = T extends PromiseLike<{ data: infer U }>

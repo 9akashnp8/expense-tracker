@@ -6,12 +6,12 @@ import {
     createAccountController,
     updateAccountController,
     deleteAccountController,
-} from "./index.ts";
+} from "./index.js";
 import {
     createFailureResponse,
     createSuccessResponse
-} from '../../common/utils/response.ts';
-import * as accountService from '../service/index.ts';
+} from '../../common/utils/response.js';
+import * as accountService from '../service/index.js';
 
 jest.mock('../service', () => ({
     listAccounts: jest.fn(),
@@ -20,7 +20,7 @@ jest.mock('../service', () => ({
     updateAccount: jest.fn(),
     deleteAccount: jest.fn(),
 }))
-jest.mock('../../common/utils/response.ts', () => ({
+jest.mock('../../common/utils/response', () => ({
     createSuccessResponse: jest.fn(),
     createFailureResponse: jest.fn(),
 }))

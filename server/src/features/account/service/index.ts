@@ -1,4 +1,4 @@
-import { supabase } from "../../common/supabase.ts";
+import { supabase } from "../../common/supabase.js";
 
 import { Account, AccountUpdatePayload } from "../types.js";
 
