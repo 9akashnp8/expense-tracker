@@ -1,9 +1,9 @@
+import {
+    createFailureResponse,
+    createSuccessResponse,
+} from "../../common/utils/response.js";
 import { Request, Response } from "express";
 import { supabase } from "../../common/supabase.js";
-import {
-    createSuccessResponse,
-    createFailureResponse,
-} from "../../common/utils/response.js";
 
 export async function listAccountType(req: Request, res: Response) {
     const { data, error } = await supabase.from("account_type").select();
@@ -32,7 +32,7 @@ export async function createAccountType(
     req: Request<{ id: string }>,
     res: Response,
 ) {
-    const body = req.body;
+    const { body } = req;
     const { error } = await supabase.from("account_type").insert(body);
 
     if (error) return createFailureResponse(req, res, 500, "", error);
@@ -41,7 +41,7 @@ export async function createAccountType(
 
 export async function updateAccountType(req: Request, res: Response) {
     const { id } = req.params;
-    const body = req.body;
+    const { body } = req;
     const { error } = await supabase
         .from("account_type")
         .update(body)

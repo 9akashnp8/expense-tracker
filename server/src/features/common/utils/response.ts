@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 /**
- * wrapper to create a standardized
+ * Wrapper to create a standardized
  * success (2xx) response
  * @param req express Request object
  * @param res express Response object
@@ -14,13 +14,13 @@ export function createSuccessResponse(
     res: Response,
     status: 200 | 201 | 204,
     message: string = "",
-    body:  object | object[] | null = {} // TODO: improve this
+    body: object | object[] | null = {}, // TODO: improve this
 ) {
-    res.status(status).json({status: "success", message: message, data: body})
+    res.status(status).json({ status: "success", message, data: body });
 }
 
 /**
- * wrapper to create a standardized
+ * Wrapper to create a standardized
  * failure (4xx/5xx) response
  * @param req express Request object
  * @param res express Response object
@@ -33,7 +33,7 @@ export function createFailureResponse(
     res: Response,
     status: 400 | 404 | 500,
     message: string = "",
-    body: object | object[] | null = {} // TODO: improve this
+    body: object | object[] | null = {}, // TODO: improve this
 ) {
-    res.status(status).json({status: "failure", message: message, data: body})
+    res.status(status).json({ status: "failure", message, data: body });
 }
