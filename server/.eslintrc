@@ -1,11 +1,40 @@
 {
     "extends": [
-        "eslint:recommended",
+        "eslint:all",
         "plugin:@typescript-eslint/recommended",
         "prettier"
     ],
     "parser": "@typescript-eslint/parser",
     "plugins": ["@typescript-eslint"],
     "root": true,
-    "rules": {}
+    "rules": {
+        "sort-keys": "off",
+        "max-params": "off",
+        "no-magic-numbers": "off",
+        "line-comment-position": "off",
+        "no-inline-comments": "off",
+        "no-warning-comments": "off",
+        "one-var": ["error", "never"],
+        "new-cap": ["error", { "capIsNew": false }],
+        "sort-imports": [
+            "error",
+            {
+                "ignoreCase": true,
+                "ignoreDeclarationSort": true
+            }
+        ],
+        "func-style": [
+            "error",
+            "declaration",
+            { "allowArrowFunctions": true }
+        ],
+        "capitalized-comments": [
+            "error",
+            "always",
+            {
+                "ignoreConsecutiveComments": true,
+                "ignoreInlineComments": true
+            }
+        ]
+    }
 }

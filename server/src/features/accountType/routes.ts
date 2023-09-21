@@ -1,17 +1,17 @@
 import express from "express";
 
 import {
-    listAccountType,
-    getAccountType,
     createAccountType,
+    deleteAccountType,
+    getAccountType,
+    listAccountType,
     updateAccountType,
-    deleteAccountType
 } from "./controller/index.js";
 
-export const router = express.Router()
+export const router = express.Router();
 
-router.get("/", listAccountType)
-router.get("/:id", getAccountType)
-router.post("/", createAccountType)
-router.patch("/:id", updateAccountType)
-router.delete("/:id", deleteAccountType)
+router.get("/", listAccountType);
+router.get("/:id", getAccountType);
+router.post("/", createAccountType);
+router.patch("/:id", updateAccountType);
+router.delete("/:id", deleteAccountType);

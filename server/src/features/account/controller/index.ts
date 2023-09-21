@@ -1,9 +1,13 @@
 import { Request, Response } from "express";
 import {
+    createFailureResponse,
     createSuccessResponse,
 } from "../../common/utils/response.js";
 import {
     createAccount,
+    deleteAccount,
+    getAccount,
+    listAccounts,
     updateAccount,
 } from "../service/index.js";
 import { logger as rootLogger } from "../../common/utils/logger.js";
@@ -15,8 +19,8 @@ export async function listAccountsController(req: Request, res: Response) {
 
     if (error) {
         logger.error({
+            error,
             message: "error when querying accounts",
-            error: error,
         });
         return createFailureResponse(req, res, 500);
     }
@@ -29,8 +33,8 @@ export async function getAccountController(req: Request, res: Response) {
 
     if (error) {
         logger.error({
+            error,
             message: `error when querying account with id: ${id}`,
-            error: error,
         });
         return createFailureResponse(req, res, 500);
     } else if (!data?.length) {
@@ -41,14 +45,14 @@ export async function getAccountController(req: Request, res: Response) {
 }
 
 export async function createAccountController(req: Request, res: Response) {
-    const body: Account = req.body;
+    const { body } = req;
     const { error } = await createAccount(body);
 
     if (error) {
         logger.error({
+            error,
             message: "error when creating account",
             requestPayload: body,
-            error: error,
         });
         return createFailureResponse(req, res, 500, "");
     }
@@ -56,15 +60,15 @@ export async function createAccountController(req: Request, res: Response) {
 }
 
 export async function updateAccountController(req: Request, res: Response) {
-    const { id } = req.params;
-    const body = req.body;
+    const { id } = req.params; // TODO: ensure id is number
+    const { body } = req;
     const { error } = await updateAccount(id, body);
 
     if (error) {
         logger.error({
+            error,
             message: `error when updating account: ${id}`,
             requestPayload: body,
-            error: error,
         });
         return createFailureResponse(req, res, 500, "");
     }
@@ -77,8 +81,8 @@ export async function deleteAccountController(req: Request, res: Response) {
 
     if (error) {
         logger.error({
+            error,
             message: `error when deleting account: ${id}`,
-            error: error,
         });
         return createFailureResponse(req, res, 500, "");
     }
