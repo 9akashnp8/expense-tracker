@@ -2,25 +2,28 @@ import {
     createFailureResponse,
     createSuccessResponse,
 } from "../../common/utils/response.js";
+import {
+    createAccountType,
+    deleteAccountType,
+    getAccountType,
+    listAccountType,
+    updateAccountType,
+} from "../service/index.js";
 import { Request, Response } from "express";
-import { supabase } from "../../common/supabase.js";
 
-export async function listAccountType(req: Request, res: Response) {
-    const { data, error } = await supabase.from("account_type").select();
+export async function listAccountTypeController(req: Request, res: Response) {
+    const { data, error } = await listAccountType();
 
     if (error) return createFailureResponse(req, res, 500);
     return createSuccessResponse(req, res, 200, "", data);
 }
 
-export async function getAccountType(
+export async function getAccountTypeController(
     req: Request<{ id: string }>,
     res: Response,
 ) {
     const { id } = req.params;
-    const { data, error } = await supabase
-        .from("account_type")
-        .select()
-        .eq("id", id);
+    const { data, error } = await getAccountType(id);
 
     if (error) return createFailureResponse(req, res, 500);
     else if (!data?.length)
@@ -28,32 +31,29 @@ export async function getAccountType(
     return createSuccessResponse(req, res, 200, "", data);
 }
 
-export async function createAccountType(
+export async function createAccountTypeController(
     req: Request<{ id: string }>,
     res: Response,
 ) {
     const { body } = req;
-    const { error } = await supabase.from("account_type").insert(body);
+    const { error } = await createAccountType(body);
 
     if (error) return createFailureResponse(req, res, 500, "", error);
     return createSuccessResponse(req, res, 201, "", body);
 }
 
-export async function updateAccountType(req: Request, res: Response) {
+export async function updateAccountTypeController(req: Request, res: Response) {
     const { id } = req.params;
     const { body } = req;
-    const { error } = await supabase
-        .from("account_type")
-        .update(body)
-        .eq("id", id);
+    const { error } = await updateAccountType(id, body);
 
     if (error) return createFailureResponse(req, res, 500, "", error);
     return createSuccessResponse(req, res, 204);
 }
 
-export async function deleteAccountType(req: Request, res: Response) {
+export async function deleteAccountTypeController(req: Request, res: Response) {
     const { id } = req.params;
-    const { error } = await supabase.from("account_type").delete().eq("id", id);
+    const { error } = await deleteAccountType(id);
 
     if (error) return createFailureResponse(req, res, 500, "", error);
     return createSuccessResponse(req, res, 204);
