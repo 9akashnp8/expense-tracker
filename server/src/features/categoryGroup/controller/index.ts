@@ -1,26 +1,34 @@
 import { Request, Response } from "express";
-import { supabase } from "../../common/supabase.js";
+import { ParamsDictionary } from "express-serve-static-core";
 import {
     createFailureResponse,
     createSuccessResponse,
 } from "../../common/utils/response.js";
+import {
+    createCategoryGroup,
+    deleteCategoryGroup,
+    getCategoryGroup,
+    listCategoryGroup,
+    updateCategoryGroup,
+} from "../service/index.js";
+import {
+    CreateCategoryGroupPayload,
+    UpdateCategoryGroupPayload,
+} from "../types.js";
 
-export async function listCategoryGroup(req: Request, res: Response) {
-    const { data, error } = await supabase.from("category_group").select();
+export async function listCategoryGroupController(req: Request, res: Response) {
+    const { data, error } = await listCategoryGroup();
 
     if (error) return createFailureResponse(req, res, 500);
     return createSuccessResponse(req, res, 200, "", data);
 }
 
-export async function getCategoryGroup(
+export async function getCategoryGroupController(
     req: Request<{ id: string }>,
     res: Response,
 ) {
     const { id } = req.params;
-    const { data, error } = await supabase
-        .from("category_group")
-        .select()
-        .eq("id", id);
+    const { data, error } = await getCategoryGroup(id);
 
     if (error) return createFailureResponse(req, res, 500);
     else if (!data?.length)
@@ -28,35 +36,35 @@ export async function getCategoryGroup(
     return createSuccessResponse(req, res, 200, "", data);
 }
 
-export async function createCategoryGroup(
-    req: Request<{ id: string }>,
+export async function createCategoryGroupController(
+    req: Request<ParamsDictionary, Response, CreateCategoryGroupPayload>,
     res: Response,
 ) {
     const { body } = req;
-    const { error } = await supabase.from("category_group").insert(body);
+    const { error } = await createCategoryGroup(body);
 
     if (error) return createFailureResponse(req, res, 500, "", error);
     return createSuccessResponse(req, res, 201, "", body);
 }
 
-export async function updateCategoryGroup(req: Request, res: Response) {
+export async function updateCategoryGroupController(
+    req: Request<{ id: string }, Response, UpdateCategoryGroupPayload>,
+    res: Response,
+) {
     const { id } = req.params; // TODO: ensure id is number
     const { body } = req;
-    const { error } = await supabase
-        .from("category_group")
-        .update(body)
-        .eq("id", id);
+    const { error } = await updateCategoryGroup(id, body);
 
     if (error) return createFailureResponse(req, res, 500, "", error);
     return createSuccessResponse(req, res, 204);
 }
 
-export async function deleteCategoryGroup(req: Request, res: Response) {
+export async function deleteCategoryGroupController(
+    req: Request,
+    res: Response,
+) {
     const { id } = req.params;
-    const { error } = await supabase
-        .from("category_group")
-        .delete()
-        .eq("id", id);
+    const { error } = await deleteCategoryGroup(id);
 
     if (error) return createFailureResponse(req, res, 500, "", error);
     return createSuccessResponse(req, res, 204);
