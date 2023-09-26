@@ -1,17 +1,17 @@
 import express from "express";
 
 import {
-    createCategoryGroup,
-    deleteCategoryGroup,
-    getCategoryGroup,
-    listCategoryGroup,
-    updateCategoryGroup,
+    createCategoryGroupController,
+    deleteCategoryGroupController,
+    getCategoryGroupController,
+    listCategoryGroupController,
+    updateCategoryGroupController,
 } from "./controller/index.js";
 
 export const router = express.Router();
 
-router.get("/", listCategoryGroup);
-router.post("/", createCategoryGroup);
-router.get("/:id", getCategoryGroup);
-router.patch("/:id", updateCategoryGroup);
-router.delete("/:id", deleteCategoryGroup);
+router.get("/", listCategoryGroupController);
+router.post("/", createCategoryGroupController);
+router.get("/:id", getCategoryGroupController);
+router.patch("/:id", updateCategoryGroupController);
+router.delete("/:id", deleteCategoryGroupController);
