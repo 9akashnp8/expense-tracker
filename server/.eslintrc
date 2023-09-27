@@ -12,6 +12,7 @@
         "max-params": "off",
         "no-ternary": "off",
         "camelcase": "off",
+        "max-statements": "off",
         "no-magic-numbers": "off",
         "line-comment-position": "off",
         "no-inline-comments": "off",
