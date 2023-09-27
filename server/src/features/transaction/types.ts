@@ -8,6 +8,7 @@ export type Transaction = {
     account: number;
     label: number;
     notes: string;
+    is_expense: boolean;
 };
 
 export type CreateTransactionPayload = {
@@ -18,6 +19,7 @@ export type CreateTransactionPayload = {
     account: number;
     label?: number;
     notes?: string;
+    is_expense: boolean;
 };
 
 export type UpdateTransactionPayload = {
@@ -28,4 +30,5 @@ export type UpdateTransactionPayload = {
     account?: number;
     label?: number;
     notes?: string;
+    is_expense: boolean;
 };
