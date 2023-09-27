@@ -25,15 +25,6 @@ export async function getTransaction(id: string) {
 }
 
 export async function createTransaction(body: CreateTransactionPayload) {
-    const { error } = await supabase.from("transaction").insert(body);
-    if (error) {
-        logger.error({
-            error,
-            message: "Something went wrong when inserting transaction record",
-        });
-        return { error };
-    }
-
     const { data: account, error: accError } = await getAccount(body.account);
     if (accError) {
         logger.error({
@@ -44,10 +35,20 @@ export async function createTransaction(body: CreateTransactionPayload) {
     }
 
     const operation = body.is_expense ? 1 : -1;
-    const remainingAccountBalance =
-        account![0].latest_balance! - body.amount * operation;
+    const originalBalance = account![0].latest_balance!;
+    const remainingAccBalance = originalBalance - body.amount * operation;
+
+    const { error } = await supabase.from("transaction").insert(body);
+    if (error) {
+        logger.error({
+            error,
+            message: "Something went wrong when inserting transaction record",
+        });
+        return { error };
+    }
+
     const { error: accUpdateError } = await updateAccount(body.account, {
-        latest_balance: remainingAccountBalance,
+        latest_balance: remainingAccBalance,
     });
     if (accUpdateError) {
         logger.error({
