@@ -1,4 +1,5 @@
 import { supabase } from "../../common/supabase.js";
+import { getAccount, updateAccount } from "../../account/service/index.js";
 
 import {
     CreateTransactionPayload,
@@ -22,8 +23,18 @@ export async function getTransaction(id: string) {
 
 export async function createTransaction(body: CreateTransactionPayload) {
     const { error } = await supabase.from("transaction").insert(body);
+    if (error) return { error };
 
-    return { error };
+    const { data: account, error: accError } = await getAccount(body.account);
+    if (accError) return { error: accError };
+
+    const operation = body.is_expense ? 1 : -1;
+    const remainingAccountBalance =
+        account![0].latest_balance! - body.amount * operation;
+    const { error: accUpdateError } = await updateAccount(body.account, {
+        latest_balance: remainingAccountBalance,
+    });
+    return { error: accUpdateError };
 }
 
 export async function updateTransaction(
