@@ -8,7 +8,7 @@ export async function listAccounts() {
     return { data, error };
 }
 
-export async function getAccount(id: string) {
+export async function getAccount(id: number) {
     const { data, error } = await supabase
         .from("account")
         .select()
@@ -24,7 +24,7 @@ export async function createAccount(body: Account) {
     return { error };
 }
 
-export async function updateAccount(id: string, body: AccountUpdatePayload) {
+export async function updateAccount(id: number, body: AccountUpdatePayload) {
     const { error } = await supabase.from("account").update(body).eq("id", id);
 
     return { error };
