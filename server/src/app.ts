@@ -2,7 +2,7 @@ import express, { Express } from "express";
 import cors from "cors";
 import "dotenv/config"; // eslint-disable-line sort-imports
 
-import { router } from "./features/common/routes.js";
+import { router } from "./routes.js";
 
 const PORT = 3000;
 
