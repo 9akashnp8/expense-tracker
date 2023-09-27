@@ -1,17 +1,17 @@
 import express from "express";
 
 import {
-    createTransaction,
-    deleteTransaction,
-    getTransaction,
-    listTransaction,
-    updateTransaction,
+    createTransactionController,
+    deleteTransactionController,
+    getTransactionController,
+    listTransactionController,
+    updateTransactionController,
 } from "./controller/index.js";
 
 export const router = express.Router();
 
-router.get("/", listTransaction);
-router.post("/", createTransaction);
-router.get("/:id", getTransaction);
-router.patch("/:id", updateTransaction);
-router.delete("/:id", deleteTransaction);
+router.get("/", listTransactionController);
+router.post("/", createTransactionController);
+router.get("/:id", getTransactionController);
+router.patch("/:id", updateTransactionController);
+router.delete("/:id", deleteTransactionController);
