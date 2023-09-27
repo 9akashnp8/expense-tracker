@@ -10,6 +10,8 @@
     "rules": {
         "sort-keys": "off",
         "max-params": "off",
+        "no-ternary": "off",
+        "camelcase": "off",
         "no-magic-numbers": "off",
         "line-comment-position": "off",
         "no-inline-comments": "off",
