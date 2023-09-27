@@ -1,6 +1,6 @@
 import { supabase } from "../../common/supabase.js";
 import { getAccount, updateAccount } from "../../account/service/index.js";
-
+import { calcRemainingBalance } from "../utils/functions.js";
 import {
     CreateTransactionPayload,
     UpdateTransactionPayload,
@@ -31,12 +31,15 @@ export async function createTransaction(body: CreateTransactionPayload) {
             error: accError,
             message: "Something went wrong when querying account",
         });
-        return { accError };
+        return { error: accError };
     }
 
-    const operation = body.is_expense ? 1 : -1;
     const originalBalance = account![0].latest_balance!;
-    const remainingAccBalance = originalBalance - body.amount * operation;
+    const remainingAccBalance = calcRemainingBalance(
+        originalBalance,
+        body.amount,
+        body.is_expense,
+    );
 
     const { error } = await supabase.from("transaction").insert(body);
     if (error) {
