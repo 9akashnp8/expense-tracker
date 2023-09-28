@@ -1,10 +1,10 @@
+import * as React from 'react';
 import { Box } from '@mui/material';
 import Drawer from '@mui/material/Drawer';
 import AppBar from '@mui/material/AppBar';
 import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -15,25 +15,23 @@ import IconButton from '@mui/material/IconButton';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useTheme } from '@mui/material';
 
-// import { deleteCookie } from '../../../../lib/utils';
-
-// Types
-// import {
-//     FCWithChildren,
-//     OnClickEvent
-// } from '../../../../types/common';
-
 const drawerWidth = 200;
 
-export default function ({ children }: any) {
+export default function ({ children, ...props }: any) {
+    const { window } = props;
+    const [mobileOpen, setMobileOpen] = React.useState(false);
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const navigate = useNavigate();
-    const theme = useTheme();
+    const container = window !== undefined ? () => window().document.body : undefined;
+
+    const handleDrawerToggle = () => {
+        setMobileOpen(!mobileOpen);
+    };
 
     const handleMenu = (event: any) => {
         setAnchorEl(event.currentTarget);
@@ -44,8 +42,6 @@ export default function ({ children }: any) {
     };
     
     function handleSignOut() {
-        // deleteCookie("access")
-        // deleteCookie("refresh")
         window.location.href = "login"
     }
 
@@ -56,8 +52,10 @@ export default function ({ children }: any) {
                 position="fixed"
                 color={"transparent"}
                 sx={{
-                    zIndex: (theme) => theme.zIndex.drawer + 1,
+                    // zIndex: (theme) => theme.zIndex.drawer + 1,
                     boxShadow: 0,
+                    width: { sm: `calc(100% - ${drawerWidth}px)` },
+                    ml: { sm: `${drawerWidth}px` },
                 }}
             >
                 <Toolbar
@@ -66,11 +64,15 @@ export default function ({ children }: any) {
                         justifyContent: "space-between"
                     }}
                 >   
-                    <Link to={"/"} style={{ textDecoration: 'none', color: 'inherit' }}>
-                        <Typography variant="h6" noWrap component="div">
-                            Expense Tracker
-                        </Typography>
-                    </Link>
+                    <IconButton
+                        color="inherit"
+                        aria-label="open drawer"
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        sx={{ mr: 2, display: { sm: 'none' } }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
                     <div>
                         <IconButton
                             size="large"
@@ -105,17 +107,17 @@ export default function ({ children }: any) {
                 <Divider />
             </AppBar>
             <Drawer
-                variant="permanent"
-                sx={{
-                    width: drawerWidth,
-                    flexShrink: 0,
-                    [`& .MuiDrawer-paper`]: {
-                        width: drawerWidth,
-                        boxSizing: 'border-box',
-                        backgroundColor: theme.palette.background.default
-                    },
+                container={container}
+                variant="temporary"
+                open={mobileOpen}
+                onClose={handleDrawerToggle}
+                ModalProps={{
+                  keepMounted: true, // Better open performance on mobile.
                 }}
-                className='test'
+                sx={{
+                  display: { xs: 'block', sm: 'none' },
+                  '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
             >
                 <Toolbar />
                 <Box sx={{ overflow: 'auto' }} className={'test2'}>
@@ -140,30 +142,41 @@ export default function ({ children }: any) {
                                 </ListItemButton>
                             </ListItem>
                         </Link>
-                        {/* {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                            <ListItem key={text} disablePadding>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                                    </ListItemIcon>
-                                    <ListItemText primary={text} />
-                                </ListItemButton>
-                            </ListItem>
-                        ))} */}
                     </List>
-                    {/* <Divider />
+                </Box>
+            </Drawer>
+            <Drawer
+                open
+                variant="permanent"
+                sx={{
+                    display: { xs: 'none', sm: 'block' },
+                    '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                }}
+            >
+                <Toolbar />
+                <Box sx={{ overflow: 'auto' }} className={'test2'}>
                     <List>
-                        {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                            <ListItem key={text} disablePadding>
+                        <Link to={"account"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItem key={1} disablePadding>
                                 <ListItemButton>
                                     <ListItemIcon>
-                                        {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                                        <InboxIcon />
                                     </ListItemIcon>
-                                    <ListItemText primary={text} />
+                                    <ListItemText primary={"Account"} />
                                 </ListItemButton>
                             </ListItem>
-                        ))}
-                    </List> */}
+                        </Link>
+                        <Link to={"category"} style={{ textDecoration: 'none', color: 'inherit' }}>
+                            <ListItem key={1} disablePadding>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <InboxIcon />
+                                    </ListItemIcon>
+                                    <ListItemText primary={"Category"} />
+                                </ListItemButton>
+                            </ListItem>
+                        </Link>
+                    </List>
                 </Box>
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
