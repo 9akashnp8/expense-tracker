@@ -17,9 +17,8 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import MenuIcon from '@mui/icons-material/Menu';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useState } from 'react';
-import { useTheme } from '@mui/material';
 
 const drawerWidth = 200;
 
@@ -124,7 +123,7 @@ export default function ({ children, ...props }: any) {
                     <List>
                         <Link to={"account"} style={{ textDecoration: 'none', color: 'inherit' }}>
                             <ListItem key={1} disablePadding>
-                                <ListItemButton>
+                                <ListItemButton onClick={handleDrawerToggle}>
                                     <ListItemIcon>
                                         <InboxIcon />
                                     </ListItemIcon>
