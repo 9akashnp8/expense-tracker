@@ -9,5 +9,8 @@ export default {
     '!<rootDir>/src/**/*.spec.ts',
     '!<rootDir>/src/**/*.test.ts',
     '!<rootDir>/src/**/*.d.ts'
-  ]
+  ],
+  moduleNameMapper: {
+    '(.+)\\.js': '$1'
+  },
 };
