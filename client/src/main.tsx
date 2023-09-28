@@ -9,7 +9,9 @@ import { Provider } from 'react-redux';
 
 import { store } from './features/core/store.ts';
 import Root from './features/core/routes/root.tsx';
+import AccountRoot from './features/account/routes/index.tsx';
 import ListAccount from './features/account/routes/list.tsx';
+import CreateAccount from './features/account/routes/create.tsx';
 
 import './index.css'
 
@@ -23,8 +25,19 @@ const router = createBrowserRouter([
         children: [
           {
             path: '/account',
-            element: <ListAccount />
+            element: <AccountRoot />,
+            children: [
+              {
+                path: '',
+                element: <ListAccount />
+              },
+              {
+                path: 'create',
+                element: <CreateAccount />
+              }
+            ]
           },
+        ]
       }
     ]
   }
