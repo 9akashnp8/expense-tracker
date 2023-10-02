@@ -22,25 +22,25 @@ import { Link } from "react-router-dom";
 const drawerWidth = 240;
 
 export default function ({ children, ...props }: any) {
-    const { window } = props;
+  const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
 
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
+  };
 
-    const handleMenu = (event: any) => {
-        setAnchorEl(event.currentTarget);
-    };
+  const handleMenu = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
-    
-    function handleSignOut() {
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  function handleSignOut() {
     window.location.href = "login";
-    }
+  }
 
   const drawer = (
     <div>
@@ -80,84 +80,87 @@ export default function ({ children, ...props }: any) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
-    return (
+  return (
     <Box sx={{ display: "flex" }}>
-            <CssBaseline />
-            <AppBar
-                position="fixed"
-                color={"transparent"}
-                sx={{
-                    // zIndex: (theme) => theme.zIndex.drawer + 1,
-                    boxShadow: 0,
-                    width: { sm: `calc(100% - ${drawerWidth}px)` },
-                    ml: { sm: `${drawerWidth}px` },
-                }}
-            >
-                <Toolbar
-                    style={{
-                        display: "flex",
-                        justifyContent: "space-between"
-                    }}
-                >   
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={handleDrawerToggle}
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        color={"transparent"}
+        sx={{
+          // zIndex: (theme) => theme.zIndex.drawer + 1,
+          boxShadow: 0,
+          width: { sm: `calc(100% - ${drawerWidth}px)` },
+          ml: { sm: `${drawerWidth}px` },
+        }}
+      >
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: {
+                xs: "space-between",
+                sm: "flex-end"
+            },
+          }}
+        >
+          <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            edge="start"
+            onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" } }}
-                    >
-                        <MenuIcon />
-                    </IconButton>
-                    <div>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleMenu}
-                            color="inherit"
-                        >
-                            <AccountCircle />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
+          >
+            <MenuIcon />
+          </IconButton>
+          <div>
+            <IconButton
+              size="large"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
+              color="inherit"
+            >
+              <AccountCircle />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
               sx={{
                 marginTop: "-10px",
                 marginLeft: "20px"
               }}
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
+              anchorEl={anchorEl}
+              anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-                        </Menu>
-                    </div>
-                </Toolbar>
+              }}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={Boolean(anchorEl)}
+              onClose={handleClose}
+            >
+              <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+            </Menu>
+          </div>
+        </Toolbar>
 
-                <Divider />
-            </AppBar>
+        <Divider />
+      </AppBar>
       <Box
         component="nav"
         sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
         aria-label="mailbox folders"
       >
-            <Drawer
-                container={container}
-                variant="temporary"
-                open={mobileOpen}
-                onClose={handleDrawerToggle}
-                ModalProps={{
-                  keepMounted: true, // Better open performance on mobile.
-                }}
-                sx={{
+        <Drawer
+          container={container}
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
             display: { xs: "block", sm: "none" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
@@ -166,16 +169,16 @@ export default function ({ children, ...props }: any) {
           }}
         >
           {drawer}
-            </Drawer>
-            <Drawer
-                variant="permanent"
-                sx={{
+        </Drawer>
+        <Drawer
+          variant="permanent"
+          sx={{
             display: { xs: "none", sm: "block" },
             "& .MuiDrawer-paper": {
               boxSizing: "border-box",
               width: drawerWidth,
             },
-                }}
+          }}
           open
         >
           {drawer}
@@ -189,9 +192,9 @@ export default function ({ children, ...props }: any) {
           width: { sm: `calc(100% - ${drawerWidth}px)` },
         }}
       >
-                <Toolbar />
-                {children}
-            </Box>
-        </Box>
-    );
+        <Toolbar />
+        {children}
+      </Box>
+    </Box>
+  );
 }
