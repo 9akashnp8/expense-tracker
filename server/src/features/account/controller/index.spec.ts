@@ -126,11 +126,17 @@ describe('test feature:account | controller:getAccountController', () => {
     })
 
     test('it should return 400',async () => {
-        req._setParameter({id: "abc"})
+        req = httpMocks.createRequest({params: {id: "abc"}})
 
         await getAccountController(req, res)
 
-        expect(createFailureResponse).toHaveBeenCalled()
+        expect(createFailureResponse).toHaveBeenCalledWith(
+            req,
+            res,
+            400,
+            "bad-path-param",
+            expect.anything()
+        )
     })
 
     test('it should return 500', async () => {
@@ -181,20 +187,17 @@ describe('test feature:account | controller:createAccountController', () => {
         );
     })
 
-    test('it should return 500 for bad body/other error', async () => {
+    test('it should return 400 for bad payload', async () => {
         req._setBody({})
-        const mockRes = {
-            error: "mock error response"
-        };
-        (accountService.createAccount as jest.Mock).mockResolvedValue(mockRes)
 
         await createAccountController(req, res)
 
         expect(createFailureResponse).toHaveBeenCalledWith(
             req,
             res,
-            500,
-            ""
+            400,
+            "bad-payload",
+            expect.anything(),
         );
     })
 })
@@ -225,20 +228,17 @@ describe('test feature:account | controller:updateAccountController', () => {
         );
     })
 
-    test('it should return 500 for bad body/other error', async () => {
-        req._setBody({})
-        const mockRes = {
-            error: "mock error response"
-        };
-        (accountService.updateAccount as jest.Mock).mockResolvedValue(mockRes)
+    test('it should return 400 for bad payload', async () => {
+        req._setBody({ name: 123})
 
         await updateAccountController(req, res)
 
         expect(createFailureResponse).toHaveBeenCalledWith(
             req,
             res,
-            500,
-            ""
+            400,
+            "bad-payload",
+            expect.anything()
         );
     })
 })
@@ -268,20 +268,17 @@ describe('test feature:account | controller:deleteAccountController', () => {
         );
     })
 
-    test('it should return 500 for bad body/other error', async () => {
-        req._setParameter("id", null)
-        const mockRes = {
-            error: "mock error response"
-        };
-        (accountService.deleteAccount as jest.Mock).mockResolvedValue(mockRes)
+    test('it should return 400 for bad payload', async () => {
+        req._setParameter("id", "abc")
 
         await deleteAccountController(req, res)
 
         expect(createFailureResponse).toHaveBeenCalledWith(
             req,
             res,
-            500,
-            ""
+            400,
+            "bad-path-param",
+            expect.anything()
         );
     })
 })
