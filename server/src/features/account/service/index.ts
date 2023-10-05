@@ -33,7 +33,7 @@ export async function updateAccount(
     return { error };
 }
 
-export async function deleteAccount(id: string) {
+export async function deleteAccount(id: number) {
     const { error } = await supabase.from("account").delete().eq("id", id);
 
     return { error };
