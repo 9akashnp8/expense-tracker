@@ -81,7 +81,7 @@ describe('test feature:account | controller:getAccountController', () => {
     let res: httpMocks.MockResponse<any>;
 
     beforeEach(() => {
-        req = httpMocks.createRequest({id: 10});
+        req = httpMocks.createRequest({params: {id: 10}});
         res = httpMocks.createResponse()
     });
 
