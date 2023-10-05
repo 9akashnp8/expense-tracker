@@ -112,9 +112,7 @@ describe('test feature:account | controller:getAccountController', () => {
     })
 
     test('it should return 404 for not found object', async () => {
-        const mockRes = {
-            data: []
-        };
+        const mockRes = { data: [] };
         (accountService.getAccount as jest.Mock).mockResolvedValue(mockRes)
 
         await getAccountController(req, res)
