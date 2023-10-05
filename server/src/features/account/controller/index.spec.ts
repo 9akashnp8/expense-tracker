@@ -127,6 +127,14 @@ describe('test feature:account | controller:getAccountController', () => {
         );
     })
 
+    test('it should return 400',async () => {
+        req._setParameter({id: "abc"})
+
+        await getAccountController(req, res)
+
+        expect(createFailureResponse).toHaveBeenCalled()
+    })
+
     test('it should return 500', async () => {
         const mockRes = { error: "mock error response" };
         (accountService.getAccount as jest.Mock).mockResolvedValue(mockRes)
