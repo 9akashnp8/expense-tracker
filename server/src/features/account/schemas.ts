@@ -17,3 +17,10 @@ export const AccountUpdateSchema = z.object({
     latest_balance: z.number().optional(),
     default_currency: z.string().optional(),
 });
+
+export const ParamSchema = z.coerce.number();
+
+export const AccountUpdateRequestSchema = z.object({
+    params: z.object({ id: ParamSchema }),
+    body: AccountUpdateSchema,
+});

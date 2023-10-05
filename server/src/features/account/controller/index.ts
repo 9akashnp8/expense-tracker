@@ -11,7 +11,11 @@ import {
     updateAccount,
 } from "../service/index.js";
 import { logger as rootLogger } from "../../common/utils/logger.js";
-import { AccountCreateSchema } from "../schemas.js";
+import {
+    AccountCreateSchema,
+    AccountUpdateRequestSchema,
+    ParamSchema,
+} from "../schemas.js";
 
 const logger = rootLogger.child({ feature: "account" });
 
@@ -29,7 +33,14 @@ export async function listAccountsController(req: Request, res: Response) {
 }
 
 export async function getAccountController(req: Request, res: Response) {
-    const { id } = req.params; // TODO: ensure id is number
+    const result = ParamSchema.safeParse(req.params?.id);
+    if (!result.success) {
+        const error = result.error.issues;
+        logger.error({ error, message: "bad-path-param" });
+        return createFailureResponse(req, res, 400, "bad-path-param", error);
+    }
+    const { data: id } = result;
+
     const { data, error } = await getAccount(id);
 
     if (error) {
@@ -72,8 +83,19 @@ export async function createAccountController(req: Request, res: Response) {
 }
 
 export async function updateAccountController(req: Request, res: Response) {
-    const { id } = req.params; // TODO: ensure id is number
-    const { body } = req;
+    const result = AccountUpdateRequestSchema.safeParse(req);
+    if (!result.success) {
+        const error = result.error.issues;
+        logger.error({
+            error,
+            message: "bad-payload",
+            requestPayload: req.body,
+        });
+        return createFailureResponse(req, res, 400, "bad-payload", error);
+    }
+    const { body } = result.data;
+    const { id } = result.data.params;
+
     const { error } = await updateAccount(id, body);
 
     if (error) {
@@ -88,7 +110,14 @@ export async function updateAccountController(req: Request, res: Response) {
 }
 
 export async function deleteAccountController(req: Request, res: Response) {
-    const { id } = req.params;
+    const result = ParamSchema.safeParse(req.params?.id);
+    if (!result.success) {
+        const error = result.error.issues;
+        logger.error({ error, message: "bad-path-param" });
+        return createFailureResponse(req, res, 400, "bad-path-param", error);
+    }
+    const { data: id } = result;
+
     const { error } = await deleteAccount(id);
 
     if (error) {
