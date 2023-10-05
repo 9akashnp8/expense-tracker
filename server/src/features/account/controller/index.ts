@@ -11,6 +11,7 @@ import {
     updateAccount,
 } from "../service/index.js";
 import { logger as rootLogger } from "../../common/utils/logger.js";
+import { AccountCreateSchema } from "../schemas.js";
 
 const logger = rootLogger.child({ feature: "account" });
 
@@ -45,7 +46,18 @@ export async function getAccountController(req: Request, res: Response) {
 }
 
 export async function createAccountController(req: Request, res: Response) {
-    const { body } = req;
+    const result = AccountCreateSchema.safeParse(req.body);
+    if (!result.success) {
+        const error = result.error.issues;
+        logger.error({
+            error,
+            message: "bad-payload",
+            requestPayload: req.body,
+        });
+        return createFailureResponse(req, res, 400, "bad-payload", error);
+    }
+    const { data: body } = result;
+
     const { error } = await createAccount(body);
 
     if (error) {
