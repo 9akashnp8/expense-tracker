@@ -17,11 +17,17 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 
 import { useState } from "react";
+import type { ComponentPropsWithoutRef } from "react";
 import { Link } from "react-router-dom";
 
 const drawerWidth = 240;
 
-export default function ({ children, ...props }: any) {
+interface SideDrawerProps extends ComponentPropsWithoutRef<"div"> {
+  children: React.ReactNode;
+  window: Window;
+}
+
+export default function SideDrawer({ children, ...props }: SideDrawerProps) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -30,7 +36,9 @@ export default function ({ children, ...props }: any) {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleMenu = (event: any) => {
+  const handleMenu = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+  ) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -78,7 +86,7 @@ export default function ({ children, ...props }: any) {
   );
 
   const container =
-    window !== undefined ? () => window().document.body : undefined;
+    window !== undefined ? () => window.document.body : undefined;
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -87,7 +95,7 @@ export default function ({ children, ...props }: any) {
         position="fixed"
         color={"transparent"}
         sx={{
-          // zIndex: (theme) => theme.zIndex.drawer + 1,
+          // ZIndex: (theme) => theme.zIndex.drawer + 1,
           boxShadow: 0,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
@@ -97,8 +105,8 @@ export default function ({ children, ...props }: any) {
           sx={{
             display: "flex",
             justifyContent: {
-                xs: "space-between",
-                sm: "flex-end"
+              xs: "space-between",
+              sm: "flex-end",
             },
           }}
         >
@@ -126,16 +134,16 @@ export default function ({ children, ...props }: any) {
               id="menu-appbar"
               sx={{
                 marginTop: "-10px",
-                marginLeft: "20px"
+                marginLeft: "20px",
               }}
               anchorEl={anchorEl}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorEl)}
               onClose={handleClose}

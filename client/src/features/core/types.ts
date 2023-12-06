@@ -1,5 +1,5 @@
 export interface IResponse {
-    status: string,
-    message: string,
-    data: {} | []
+  status: string;
+  message: string;
+  data: object | [];
 }

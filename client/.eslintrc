@@ -1,44 +1,30 @@
 {
-    "env": { "browser": true, "es2020": true },
-    "extends": [
-        "eslint:all",
-        "plugin:@typescript-eslint/recommended",
-        "prettier"
-    ],
-    "parser": "@typescript-eslint/parser",
-    "plugins": ["@typescript-eslint"],
-    "root": true,
-    "rules": {
-        "sort-keys": "off",
-        "max-params": "off",
-        "no-ternary": "off",
-        "camelcase": "off",
-        "max-statements": "off",
-        "no-magic-numbers": "off",
-        "line-comment-position": "off",
-        "no-inline-comments": "off",
-        "no-warning-comments": "off",
-        "one-var": ["error", "never"],
-        "new-cap": ["error", { "capIsNew": false }],
-        "sort-imports": [
-            "error",
-            {
-                "ignoreCase": true,
-                "ignoreDeclarationSort": true
-            }
-        ],
-        "func-style": [
-            "error",
-            "declaration",
-            { "allowArrowFunctions": true }
-        ],
-        "capitalized-comments": [
-            "error",
-            "always",
-            {
-                "ignoreConsecutiveComments": true,
-                "ignoreInlineComments": true
-            }
-        ]
+  "env": { "browser": true, "es2020": true },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "react"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    },
+    "import/resolver": {
+      "typescript": {}
     }
+  },
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "@typescript-eslint/no-unused-vars": "off"
+  }
 }
