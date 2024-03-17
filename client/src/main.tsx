@@ -1,53 +1,62 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import{
-  createBrowserRouter,
-  RouterProvider
-} from "react-router-dom";
-import { CssBaseline } from '@mui/material';
-import { Provider } from 'react-redux';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { CssBaseline } from "@mui/material";
+import { Provider } from "react-redux";
 
-import { store } from './features/core/store.ts';
-import Root from './features/core/routes/root.tsx';
-import AccountRoot from './features/account/routes/index.tsx';
-import ListAccount from './features/account/routes/list.tsx';
-import CreateAccount from './features/account/routes/create.tsx';
+import { store } from "./features/core/store.ts";
+import Root from "./features/core/routes/root.tsx";
+import AccountRoot from "./features/account/routes/index.tsx";
+import ListAccount from "./features/account/routes/list.tsx";
+import CreateAccount from "./features/account/routes/create.tsx";
+import CategoryListPage from "./features/category/pages/list.tsx";
 
-import './index.css'
+import "./index.css";
+import CategoryRoot from "./features/category/pages/index.tsx";
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     children: [
       {
-        path: '/',
+        path: "/",
         element: <Root />,
         children: [
           {
-            path: '/account',
+            path: "/account",
             element: <AccountRoot />,
             children: [
               {
-                path: '',
-                element: <ListAccount />
+                path: "",
+                element: <ListAccount />,
               },
               {
-                path: 'create',
-                element: <CreateAccount />
-              }
-            ]
+                path: "create",
+                element: <CreateAccount />,
+              },
+            ],
           },
-        ]
-      }
-    ]
-  }
-])
+          {
+            path: "/category",
+            element: <CategoryRoot />,
+            children: [
+              {
+                path: "",
+                element: <CategoryListPage />,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+]);
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
       <CssBaseline />
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>,
-)
+);
