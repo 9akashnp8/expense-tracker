@@ -1,9 +1,13 @@
 import CategoryDetailCard from "../components/CategoryDetailCard";
+import ActionButton from "../../core/components/ActionButton";
 
 import { useListCategoriesQuery } from "../categoryApiSlice";
 
+import { useNavigate } from "react-router-dom";
+
 export default function CategoryListPage() {
   const { data: categories, isLoading } = useListCategoriesQuery();
+  const navigate = useNavigate();
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -18,6 +22,7 @@ export default function CategoryListPage() {
           </li>
         ))}
       </ul>
+      <ActionButton content="+" onClick={() => navigate("create")} />
     </>
   );
 }

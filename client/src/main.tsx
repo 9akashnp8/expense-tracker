@@ -10,6 +10,7 @@ import AccountRoot from "./features/account/routes/index.tsx";
 import ListAccount from "./features/account/routes/list.tsx";
 import CreateAccount from "./features/account/routes/create.tsx";
 import CategoryListPage from "./features/category/pages/list.tsx";
+import CreateCategoryPage from "./features/category/pages/create.tsx";
 
 import "./index.css";
 import CategoryRoot from "./features/category/pages/index.tsx";
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
               {
                 path: "",
                 element: <CategoryListPage />,
+              },
+              {
+                path: "create",
+                element: <CreateCategoryPage />,
               },
             ],
           },
