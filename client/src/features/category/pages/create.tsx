@@ -1,6 +1,10 @@
 import { useListCategoryGroupsQuery } from "../../categoryGroup/categoryGroupApiSlice";
+import ActionButton from "../../core/components/ActionButton";
+
+import { useNavigate } from "react-router-dom";
 
 export default function CreateCategoryPage() {
+  const navigate = useNavigate();
   const { data: categoryGroups, isLoading } = useListCategoryGroupsQuery();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -79,6 +83,7 @@ export default function CreateCategoryPage() {
         </div>
         <button>Create</button>
       </form>
+      <ActionButton content="Back" onClick={() => navigate("/category")} />
     </>
   );
 }
