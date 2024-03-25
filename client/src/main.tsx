@@ -11,6 +11,8 @@ import ListAccount from "./features/account/routes/list.tsx";
 import CreateAccount from "./features/account/routes/create.tsx";
 import CategoryListPage from "./features/category/pages/list.tsx";
 import CreateCategoryPage from "./features/category/pages/create.tsx";
+import CategoryGroupRoot from "./features/categoryGroup/pages/index.tsx";
+import CategoryGroupListPage from "./features/categoryGroup/pages/list.tsx";
 
 import "./index.css";
 import CategoryRoot from "./features/category/pages/index.tsx";
@@ -48,6 +50,16 @@ const router = createBrowserRouter([
               {
                 path: "create",
                 element: <CreateCategoryPage />,
+              },
+            ],
+          },
+          {
+            path: "/categoryGroup",
+            element: <CategoryGroupRoot />,
+            children: [
+              {
+                path: "",
+                element: <CategoryGroupListPage />,
               },
             ],
           },
