@@ -13,6 +13,7 @@ import CategoryListPage from "./features/category/pages/list.tsx";
 import CreateCategoryPage from "./features/category/pages/create.tsx";
 import CategoryGroupRoot from "./features/categoryGroup/pages/index.tsx";
 import CategoryGroupListPage from "./features/categoryGroup/pages/list.tsx";
+import CategoryGroupDetailPage from "./features/categoryGroup/pages/detail.tsx";
 
 import "./index.css";
 import CategoryRoot from "./features/category/pages/index.tsx";
@@ -60,6 +61,10 @@ const router = createBrowserRouter([
               {
                 path: "",
                 element: <CategoryGroupListPage />,
+              },
+              {
+                path: ":id",
+                element: <CategoryGroupDetailPage />,
               },
             ],
           },

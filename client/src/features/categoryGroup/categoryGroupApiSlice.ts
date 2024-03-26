@@ -1,4 +1,7 @@
-import type { CategoryGroupListAPIRes } from "./types";
+import type {
+  CategoryGroupListAPIRes,
+  CategoryGroupDetailAPIRes,
+} from "./types";
 import { apiSlice } from "../api/apiSlice";
 
 export const categoryGroupApiSlice = apiSlice.injectEndpoints({
@@ -6,7 +9,11 @@ export const categoryGroupApiSlice = apiSlice.injectEndpoints({
     listCategoryGroups: builder.query<CategoryGroupListAPIRes, void>({
       query: () => "/categoryGroup",
     }),
+    getCategoryGroup: builder.query<CategoryGroupDetailAPIRes, string>({
+      query: (id) => `/categoryGroup/${id}`,
+    }),
   }),
 });
 
-export const { useListCategoryGroupsQuery } = categoryGroupApiSlice;
+export const { useListCategoryGroupsQuery, useGetCategoryGroupQuery } =
+  categoryGroupApiSlice;

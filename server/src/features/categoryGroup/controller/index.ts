@@ -33,7 +33,7 @@ export async function getCategoryGroupController(
     if (error) return createFailureResponse(req, res, 500);
     else if (!data?.length)
         return createFailureResponse(req, res, 404, "not-found");
-    return createSuccessResponse(req, res, 200, "", data);
+    return createSuccessResponse(req, res, 200, "", data[0]);
 }
 
 export async function createCategoryGroupController(

@@ -1,6 +1,8 @@
 import CategoryGroupDetailCard from "../components/CategoryGroupDetailCard";
 import { useListCategoryGroupsQuery } from "../categoryGroupApiSlice";
 
+import { Link } from "react-router-dom";
+
 export default function CategoryGroupListPage() {
   const { data: categoryGroups, isLoading } = useListCategoryGroupsQuery();
 
@@ -13,7 +15,9 @@ export default function CategoryGroupListPage() {
       <ul>
         {categoryGroups?.data?.map((category) => (
           <li key={category.id}>
-            <CategoryGroupDetailCard name={category.name} />
+            <Link to={`${category.id}`}>
+              <CategoryGroupDetailCard name={category.name} />
+            </Link>
           </li>
         ))}
       </ul>

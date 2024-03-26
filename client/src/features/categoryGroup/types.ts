@@ -12,3 +12,9 @@ export type CategoryGroupListAPIRes = {
   message?: string;
   data?: CategoryGroup[];
 };
+
+export type CategoryGroupDetailAPIRes = {
+  status: string;
+  message?: string;
+  data?: CategoryGroup;
+};
