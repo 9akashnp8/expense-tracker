@@ -1,9 +1,11 @@
 import CategoryGroupDetailCard from "../components/CategoryGroupDetailCard";
+import ActionButton from "../../core/components/ActionButton";
 import { useListCategoryGroupsQuery } from "../categoryGroupApiSlice";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function CategoryGroupListPage() {
+  const navigate = useNavigate();
   const { data: categoryGroups, isLoading } = useListCategoryGroupsQuery();
 
   if (isLoading) {
@@ -21,6 +23,7 @@ export default function CategoryGroupListPage() {
           </li>
         ))}
       </ul>
+      <ActionButton content="+" onClick={() => navigate("create")} />
     </>
   );
 }
