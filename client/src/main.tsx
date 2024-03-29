@@ -15,9 +15,12 @@ import CategoryGroupRoot from "./features/categoryGroup/pages/index.tsx";
 import CategoryGroupListPage from "./features/categoryGroup/pages/list.tsx";
 import CategoryGroupDetailPage from "./features/categoryGroup/pages/detail.tsx";
 import CreateCategoryGroupPage from "./features/categoryGroup/pages/create.tsx";
+import LabelRoot from "./features/label/pages/index.tsx";
+import LabelListPage from "./features/label/pages/list.tsx";
 
 import "./index.css";
 import CategoryRoot from "./features/category/pages/index.tsx";
+import CreateLabelPage from "./features/label/pages/create.tsx";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +73,20 @@ const router = createBrowserRouter([
               {
                 path: ":id",
                 element: <CategoryGroupDetailPage />,
+              },
+            ],
+          },
+          {
+            path: "/label",
+            element: <LabelRoot />,
+            children: [
+              {
+                path: "",
+                element: <LabelListPage />,
+              },
+              {
+                path: "create",
+                element: <CreateLabelPage />,
               },
             ],
           },
