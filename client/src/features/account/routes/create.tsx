@@ -1,74 +1,111 @@
-import Typography from "@mui/material/Typography";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
+import { useListLabelsQuery } from "../../label/labelApiSlice";
+import ActionButton from "../../core/components/ActionButton";
 
-import DatePicker from "../../core/components/DatePicker";
-import { Button } from "@mui/material";
+import * as Label from "@radix-ui/react-label";
+import * as Select from "@radix-ui/react-select";
+import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
+import { useNavigate } from "react-router-dom";
 
-export default function CreateAccount() {
+function AccountTypeSelection() {
+  const { data: labels } = useListLabelsQuery();
   return (
-    <Paper elevation={3} sx={{ height: "83vh" }}>
-      <Typography variant="h4" component="h1" sx={{ p: 5 }}>
-        Create Account
-      </Typography>
-      <Grid container spacing={2} px={5} alignItems={"center"}>
-        <Grid item xs={6}>
-          <TextField
-            sx={{ width: "100%" }}
-            id="name"
-            label="Name"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <Select
-            fullWidth
-            id="type"
-            value={10}
-            label="Age"
-            // OnChange={handleChange}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            sx={{ width: "100%" }}
+    <Select.Root name="accountType">
+      <Select.Trigger className="SelectTrigger" aria-label="Food">
+        <Select.Value placeholder="Select a fruit…" />
+        <Select.Icon className="SelectIcon">
+          <ChevronDownIcon />
+        </Select.Icon>
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Content className="SelectContent">
+          <Select.ScrollUpButton className="SelectScrollButton">
+            <ChevronUpIcon />
+          </Select.ScrollUpButton>
+          <Select.Viewport className="SelectViewport">
+            {labels?.data?.map((label) => (
+              <Select.Item value={`${label.id}`} key={label.id}>
+                <Select.ItemText>{label.name}</Select.ItemText>
+              </Select.Item>
+            ))}
+          </Select.Viewport>
+          <Select.ScrollDownButton className="SelectScrollButton">
+            <ChevronDownIcon />
+          </Select.ScrollDownButton>
+        </Select.Content>
+      </Select.Portal>
+    </Select.Root>
+  );
+}
+export default function CreateAccount() {
+  const navigate = useNavigate();
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  async function handleSubmit(e: any) {
+    e.preventDefault();
+    const accountName = e.target["accountName"].value;
+    const accountType = +e.target["accountType"].value;
+    const openingDate = e.target["openingDate"].value;
+    const latestBalance = +e.target["latestBalance"].value;
+    const defaultCurrency = e.target["defaultCurrency"].value;
+
+    const body = {
+      name: accountName,
+      type: accountType,
+      opening_date: openingDate,
+      latest_balance: latestBalance,
+      default_currency: defaultCurrency,
+    };
+
+    const response = await fetch("http://localhost:3000/account", {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (response.ok) {
+      window.location.href = "";
+    }
+  }
+  return (
+    <>
+      <h1>Create Account</h1>
+      <form method="POST" onSubmit={handleSubmit}>
+        <div>
+          <Label.Root htmlFor="accountName">Account Name</Label.Root>
+          <input type="text" id="accountName" name="accountName" required />
+        </div>
+        <div>
+          <Label.Root htmlFor="accountType">Account Type</Label.Root>
+          <AccountTypeSelection />
+        </div>
+        <div>
+          <Label.Root htmlFor="openingDate">Opening Date</Label.Root>
+          <input type="date" id="openingDate" name="openingDate" required />
+        </div>
+        <div>
+          <Label.Root htmlFor="latestBalance">Latest Balance</Label.Root>
+          <input
             type="number"
-            id="starting_balance"
-            label="Starting Balance"
-            variant="outlined"
+            id="latestBalance"
+            name="latestBalance"
+            required
           />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            sx={{ width: "100%" }}
-            type="number"
-            id="latest_balance"
-            label="Latest Balance"
-            variant="outlined"
+        </div>
+        <div>
+          <Label.Root htmlFor="defaultCurrency">Default Currency</Label.Root>
+          <input
+            type="text"
+            id="defaultCurrency"
+            name="defaultCurrency"
+            required
           />
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            sx={{ width: "100%" }}
-            id="default_currency"
-            label="Default Currency"
-            variant="outlined"
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <DatePicker label="Opening Date" />
-        </Grid>
-        <Grid item xs={6}>
-          <Button variant="contained">Submit</Button>
-        </Grid>
-      </Grid>
-    </Paper>
+        </div>
+        <button>Submit</button>
+      </form>
+      <ActionButton content="Back" onClick={() => navigate("/account")} />
+    </>
   );
 }
