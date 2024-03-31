@@ -17,6 +17,7 @@ import CategoryGroupDetailPage from "./features/categoryGroup/pages/detail.tsx";
 import CreateCategoryGroupPage from "./features/categoryGroup/pages/create.tsx";
 import LabelRoot from "./features/label/pages/index.tsx";
 import LabelListPage from "./features/label/pages/list.tsx";
+import HomePage from "./features/core/routes/home.tsx";
 
 import "./index.css";
 import CategoryRoot from "./features/category/pages/index.tsx";
@@ -25,70 +26,69 @@ import CreateLabelPage from "./features/label/pages/create.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Root />,
     children: [
       {
         path: "/",
-        element: <Root />,
+        element: <HomePage />,
+      },
+      {
+        path: "/account",
+        element: <AccountRoot />,
         children: [
           {
-            path: "/account",
-            element: <AccountRoot />,
-            children: [
-              {
-                path: "",
-                element: <ListAccount />,
-              },
-              {
-                path: "create",
-                element: <CreateAccount />,
-              },
-            ],
+            path: "",
+            element: <ListAccount />,
           },
           {
-            path: "/category",
-            element: <CategoryRoot />,
-            children: [
-              {
-                path: "",
-                element: <CategoryListPage />,
-              },
-              {
-                path: "create",
-                element: <CreateCategoryPage />,
-              },
-            ],
+            path: "create",
+            element: <CreateAccount />,
+          },
+        ],
+      },
+      {
+        path: "/category",
+        element: <CategoryRoot />,
+        children: [
+          {
+            path: "",
+            element: <CategoryListPage />,
           },
           {
-            path: "/categoryGroup",
-            element: <CategoryGroupRoot />,
-            children: [
-              {
-                path: "",
-                element: <CategoryGroupListPage />,
-              },
-              {
-                path: "create",
-                element: <CreateCategoryGroupPage />,
-              },
-              {
-                path: ":id",
-                element: <CategoryGroupDetailPage />,
-              },
-            ],
+            path: "create",
+            element: <CreateCategoryPage />,
+          },
+        ],
+      },
+      {
+        path: "/categoryGroup",
+        element: <CategoryGroupRoot />,
+        children: [
+          {
+            path: "",
+            element: <CategoryGroupListPage />,
           },
           {
-            path: "/label",
-            element: <LabelRoot />,
-            children: [
-              {
-                path: "",
-                element: <LabelListPage />,
-              },
-              {
-                path: "create",
-                element: <CreateLabelPage />,
-              },
-            ],
+            path: "create",
+            element: <CreateCategoryGroupPage />,
+          },
+          {
+            path: ":id",
+            element: <CategoryGroupDetailPage />,
+          },
+        ],
+      },
+      {
+        path: "/label",
+        element: <LabelRoot />,
+        children: [
+          {
+            path: "",
+            element: <LabelListPage />,
+          },
+          {
+            path: "create",
+            element: <CreateLabelPage />,
           },
         ],
       },
