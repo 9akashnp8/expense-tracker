@@ -55,6 +55,16 @@ export default function SideDrawer({ children, ...props }: SideDrawerProps) {
       <Toolbar />
       <Divider />
       <List>
+        <Link to={""} style={{ textDecoration: "none", color: "inherit" }}>
+          <ListItem key={1} disablePadding>
+            <ListItemButton onClick={handleDrawerToggle}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Home"} />
+            </ListItemButton>
+          </ListItem>
+        </Link>
         <Link
           to={"account"}
           style={{ textDecoration: "none", color: "inherit" }}
@@ -91,6 +101,16 @@ export default function SideDrawer({ children, ...props }: SideDrawerProps) {
                 <InboxIcon />
               </ListItemIcon>
               <ListItemText primary={"Category Groups"} />
+            </ListItemButton>
+          </ListItem>
+        </Link>
+        <Link to={"label"} style={{ textDecoration: "none", color: "inherit" }}>
+          <ListItem key={1} disablePadding>
+            <ListItemButton onClick={handleDrawerToggle}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Label"} />
             </ListItemButton>
           </ListItem>
         </Link>
