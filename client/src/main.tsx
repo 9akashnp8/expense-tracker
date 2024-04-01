@@ -18,6 +18,9 @@ import CreateCategoryGroupPage from "./features/categoryGroup/pages/create.tsx";
 import LabelRoot from "./features/label/pages/index.tsx";
 import LabelListPage from "./features/label/pages/list.tsx";
 import HomePage from "./features/core/routes/home.tsx";
+import TransactionRoot from "./features/transaction/pages/index.tsx";
+import TransactionListPage from "./features/transaction/pages/list.tsx";
+import TransactionCreatePage from "./features/transaction/pages/create.tsx";
 
 import "./index.css";
 import CategoryRoot from "./features/category/pages/index.tsx";
@@ -89,6 +92,20 @@ const router = createBrowserRouter([
           {
             path: "create",
             element: <CreateLabelPage />,
+          },
+        ],
+      },
+      {
+        path: "/transaction",
+        element: <TransactionRoot />,
+        children: [
+          {
+            path: "",
+            element: <TransactionListPage />,
+          },
+          {
+            path: "create",
+            element: <TransactionCreatePage />,
           },
         ],
       },
