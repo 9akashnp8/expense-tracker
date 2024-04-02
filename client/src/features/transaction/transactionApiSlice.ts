@@ -6,7 +6,12 @@ const transactionApiSlice = apiSlice.injectEndpoints({
     listTransactions: builder.query<TxnListAPIRes, void>({
       query: () => "http://localhost:3000/transaction",
     }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    getCategoryWiseCount: builder.query<any, void>({
+      query: () => "http://localhost:3000/transaction/groupedByCategory",
+    }),
   }),
 });
 
-export const { useListTransactionsQuery } = transactionApiSlice;
+export const { useListTransactionsQuery, useGetCategoryWiseCountQuery } =
+  transactionApiSlice;

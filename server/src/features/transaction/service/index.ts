@@ -79,3 +79,17 @@ export async function deleteTransaction(id: string) {
 
     return { error };
 }
+
+export async function getTxnGroupedByCategory() {
+    const { data, error } = await supabase.rpc('get_category_transaction_count')
+
+
+    if (error) {
+        logger.error({
+            error,
+            message: "Something went wrong when updating account balance",
+        });
+    }
+
+    return { data, error }
+}

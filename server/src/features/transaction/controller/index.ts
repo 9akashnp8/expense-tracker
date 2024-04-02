@@ -10,6 +10,7 @@ import {
     getTransaction,
     listTransaction,
     updateTransaction,
+    getTxnGroupedByCategory,
 } from "../service/index.js";
 import {
     CreateTransactionPayload,
@@ -65,4 +66,9 @@ export async function deleteTransactionController(req: Request, res: Response) {
 
     if (error) return createFailureResponse(req, res, 500, "", error);
     return createSuccessResponse(req, res, 204);
+}
+
+export async function txnGroupedByCategoryController(req: Request, res: Response) {
+    const { data } = await getTxnGroupedByCategory();
+    return createSuccessResponse(req, res, 200, "", data)
 }

@@ -6,47 +6,48 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       account: {
         Row: {
           created_at: string
-          default_currency: string | null
+          default_currency: string
           id: number
-          latest_balance: number | null
-          name: string | null
-          opening_date: string | null
+          latest_balance: number
+          name: string
+          opening_date: string
           starting_balance: number | null
-          type: number | null
+          type: number
         }
         Insert: {
           created_at?: string
-          default_currency?: string | null
+          default_currency: string
           id?: number
-          latest_balance?: number | null
-          name?: string | null
-          opening_date?: string | null
+          latest_balance: number
+          name: string
+          opening_date?: string
           starting_balance?: number | null
-          type?: number | null
+          type: number
         }
         Update: {
           created_at?: string
-          default_currency?: string | null
+          default_currency?: string
           id?: number
-          latest_balance?: number | null
-          name?: string | null
-          opening_date?: string | null
+          latest_balance?: number
+          name?: string
+          opening_date?: string
           starting_balance?: number | null
-          type?: number | null
+          type?: number
         }
         Relationships: [
           {
             foreignKeyName: "account_type_fkey"
             columns: ["type"]
+            isOneToOne: false
             referencedRelation: "account_type"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       account_type: {
@@ -99,9 +100,10 @@ export interface Database {
           {
             foreignKeyName: "category_group_fkey"
             columns: ["group"]
+            isOneToOne: false
             referencedRelation: "category_group"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       category_group: {
@@ -175,34 +177,37 @@ export interface Database {
       }
       transaction: {
         Row: {
-          account: number | null
-          amount: number | null
+          account: number
+          amount: number
           category: number | null
           created_at: string
           id: number
-          item: string | null
+          is_expense: boolean
+          item: string
           label: number | null
           notes: string | null
           txn_date_time: string | null
         }
         Insert: {
-          account?: number | null
-          amount?: number | null
+          account: number
+          amount: number
           category?: number | null
           created_at?: string
           id?: number
-          item?: string | null
+          is_expense?: boolean
+          item: string
           label?: number | null
           notes?: string | null
           txn_date_time?: string | null
         }
         Update: {
-          account?: number | null
-          amount?: number | null
+          account?: number
+          amount?: number
           category?: number | null
           created_at?: string
           id?: number
-          item?: string | null
+          is_expense?: boolean
+          item?: string
           label?: number | null
           notes?: string | null
           txn_date_time?: string | null
@@ -211,29 +216,44 @@ export interface Database {
           {
             foreignKeyName: "transaction_account_fkey"
             columns: ["account"]
+            isOneToOne: false
             referencedRelation: "account"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "transaction_category_fkey"
             columns: ["category"]
+            isOneToOne: false
             referencedRelation: "category"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "transaction_label_fkey"
             columns: ["label"]
+            isOneToOne: false
             referencedRelation: "label"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
     }
     Views: {
-      [_ in never]: never
+      category_transaction_count: {
+        Row: {
+          name: string | null
+          transaction_count: number | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      get_category_transaction_count: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          name: string
+          transaction_count: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never
@@ -243,3 +263,85 @@ export interface Database {
     }
   }
 }
+
+type PublicSchema = Database[Extract<keyof Database, "public">]
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof PublicSchema["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
