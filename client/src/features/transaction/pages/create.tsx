@@ -53,7 +53,7 @@ export default function TransactionCreatePage() {
     const item = e.target["item"].value;
     const amount = +e.target["amount"].value;
     const account = +e.target["account"].value;
-    const isExpense = e.target["isExpense"].checked;
+    const isExpense = document.getElementsByName("isExpense")[0].checked;
     const category = +e.target["category"].value;
     const label = +e.target["label"].value;
     const notes = e.target["notes"].value;
@@ -101,7 +101,7 @@ export default function TransactionCreatePage() {
           <label htmlFor="isExpense" style={{ paddingRight: 15 }}>
             Is Expense
           </label>
-          <Switch.Root className="SwitchRoot" id="isExpense">
+          <Switch.Root className="SwitchRoot" id="isExpense" name="isExpense">
             <Switch.Thumb className="SwitchThumb" />
           </Switch.Root>
         </div>
