@@ -2,10 +2,11 @@ import ActionButton from "../components/ActionButton";
 import { useGetCategoryWiseCountQuery } from "../../transaction/transactionApiSlice";
 
 import { useNavigate } from "react-router-dom";
-import { PieChart, Pie } from "recharts";
+import { PieChart, Pie, Cell } from "recharts";
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const CATEGORY_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
   const { data, isLoading } = useGetCategoryWiseCountQuery();
 
   if (isLoading) {
@@ -20,12 +21,14 @@ export default function HomePage() {
           dataKey="transaction_count"
           isAnimationActive={false}
           data={data?.data}
-          cx="50%"
-          cy="50%"
           outerRadius={80}
           fill="#8884d8"
-          label
-        />
+          label={({ name }) => name}
+        >
+          {data?.data?.map((_, index: number) => {
+            return <Cell key={index} fill={CATEGORY_COLORS[index]} />;
+          })}
+        </Pie>
       </PieChart>
       <ActionButton
         content="+"

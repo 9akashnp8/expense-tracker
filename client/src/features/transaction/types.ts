@@ -16,3 +16,14 @@ export type TxnListAPIRes = {
   message?: string;
   data?: Transaction[];
 };
+
+export type TxnCategoryChartData = {
+  name: string;
+  transaction_count: number;
+};
+
+export type TxnCategoryChartAPIRes = {
+  status: string;
+  message?: string;
+  data?: TxnCategoryChartData[];
+};

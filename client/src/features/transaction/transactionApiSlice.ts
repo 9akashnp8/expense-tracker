@@ -1,5 +1,5 @@
 import { apiSlice } from "../api/apiSlice";
-import { TxnListAPIRes } from "./types";
+import { TxnListAPIRes, TxnCategoryChartAPIRes } from "./types";
 
 const transactionApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -7,7 +7,7 @@ const transactionApiSlice = apiSlice.injectEndpoints({
       query: () => "http://localhost:3000/transaction",
     }),
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    getCategoryWiseCount: builder.query<any, void>({
+    getCategoryWiseCount: builder.query<TxnCategoryChartAPIRes, void>({
       query: () => "http://localhost:3000/transaction/groupedByCategory",
     }),
   }),
