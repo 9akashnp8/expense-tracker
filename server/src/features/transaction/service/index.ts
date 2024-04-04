@@ -93,3 +93,17 @@ export async function getTxnGroupedByCategory() {
 
     return { data, error }
 }
+
+export async function txnGroupedByDate() {
+    const { data, error } = await supabase.rpc('get_day_wise_count')
+
+
+    if (error) {
+        logger.error({
+            error,
+            message: "Something went wrong when updating account balance",
+        });
+    }
+
+    return { data, error }
+}

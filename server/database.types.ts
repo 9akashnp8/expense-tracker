@@ -254,6 +254,13 @@ export type Database = {
           transaction_count: number
         }[]
       }
+      get_day_wise_count: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          txn_date_time: string
+          count: number
+        }[]
+      }
     }
     Enums: {
       [_ in never]: never

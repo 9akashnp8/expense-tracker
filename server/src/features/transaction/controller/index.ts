@@ -11,6 +11,7 @@ import {
     listTransaction,
     updateTransaction,
     getTxnGroupedByCategory,
+    txnGroupedByDate,
 } from "../service/index.js";
 import {
     CreateTransactionPayload,
@@ -71,4 +72,26 @@ export async function deleteTransactionController(req: Request, res: Response) {
 export async function txnGroupedByCategoryController(req: Request, res: Response) {
     const { data } = await getTxnGroupedByCategory();
     return createSuccessResponse(req, res, 200, "", data)
+}
+
+export async function txnGroupedByDateController(req: Request, res: Response) {
+    const { data } = await txnGroupedByDate();
+    const result = []
+    const weekBeforeDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+    for (let i = 0; i <= 7; i++) {
+        let date = new Date(weekBeforeDate.setDate(weekBeforeDate.getDate() + 1))
+        const x = data?.filter((item) => {
+            const d = new Date(item.txn_date_time)
+            return (
+                d.getFullYear() === date.getFullYear() &&
+                d.getMonth() === date.getMonth() &&
+                d.getDate() === date.getDate()
+            )
+        }) 
+        result.push({
+            "txn_date_time": date.getDate(),
+            "count": x && (x[0]?.count || 0)
+        })
+    }
+    return createSuccessResponse(req, res, 200, "", result)
 }

@@ -27,3 +27,14 @@ export type TxnCategoryChartAPIRes = {
   message?: string;
   data?: TxnCategoryChartData[];
 };
+
+export type TxnDateChartData = {
+  txn_date_time: number;
+  count: string;
+};
+
+export type TxnDateChartDataAPIRes = {
+  status: string;
+  message?: string;
+  data?: TxnDateChartData[];
+};
