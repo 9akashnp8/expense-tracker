@@ -22,7 +22,8 @@ import TransactionRoot from "./features/transaction/pages/index.tsx";
 import TransactionListPage from "./features/transaction/pages/list.tsx";
 import TransactionCreatePage from "./features/transaction/pages/create.tsx";
 
-import "./index.css";
+import "./styles/radix.css";
+import "./styles/custom.css";
 import CategoryRoot from "./features/category/pages/index.tsx";
 import CreateLabelPage from "./features/label/pages/create.tsx";
 
