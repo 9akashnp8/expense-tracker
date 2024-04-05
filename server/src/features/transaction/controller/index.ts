@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { ParamsDictionary } from "express-serve-static-core";
+import { format } from "date-fns";
 import {
     createFailureResponse,
     createSuccessResponse,
@@ -89,7 +90,7 @@ export async function txnGroupedByDateController(req: Request, res: Response) {
             )
         }) 
         result.push({
-            "txn_date_time": date.getDate(),
+            "txn_date_time": format(date, "do 'of' MMMM"),
             "count": x && (x[0]?.count || 0)
         })
     }
