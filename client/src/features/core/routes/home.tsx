@@ -1,4 +1,5 @@
 import ActionButton from "../components/ActionButton";
+import SummaryWidget from "../components/SummaryWidget";
 import {
   useGetCategoryWiseCountQuery,
   useGetDatewiseCountQuery,
@@ -30,8 +31,21 @@ export default function HomePage() {
 
   return (
     <>
-      <h1>Home</h1>
-      <PieChart width={400} height={400}>
+      <SummaryWidget title="this months spend" summary={"₹1,200"} />
+      <LineChart width={300} height={300} data={dateWiseData?.data}>
+        <CartesianGrid strokeDasharray="3 3" />
+        <XAxis dataKey="txn_date_time" />
+        <YAxis allowDecimals={false} />
+        <Tooltip />
+        <Legend />
+        <Line
+          type="monotone"
+          dataKey="count"
+          stroke="#8884d8"
+          activeDot={{ r: 8 }}
+        />
+      </LineChart>
+      <PieChart width={300} height={300}>
         <Pie
           dataKey="transaction_count"
           isAnimationActive={false}
@@ -45,29 +59,6 @@ export default function HomePage() {
           })}
         </Pie>
       </PieChart>
-      <LineChart
-        width={500}
-        height={300}
-        data={dateWiseData?.data}
-        margin={{
-          top: 5,
-          right: 30,
-          left: 20,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="txn_date_time" label="Date" />
-        <YAxis allowDecimals={false} />
-        <Tooltip />
-        <Legend />
-        <Line
-          type="monotone"
-          dataKey="count"
-          stroke="#8884d8"
-          activeDot={{ r: 8 }}
-        />
-      </LineChart>
       <ActionButton
         content="+"
         onClick={() => navigate("/transaction/create")}
