@@ -261,6 +261,12 @@ export type Database = {
           count: number
         }[]
       }
+      get_total_amount_by_month: {
+        Args: {
+          month_param: number
+        }
+        Returns: number
+      }
     }
     Enums: {
       [_ in never]: never

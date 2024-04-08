@@ -38,3 +38,11 @@ export type TxnDateChartDataAPIRes = {
   message?: string;
   data?: TxnDateChartData[];
 };
+
+export type TxnMonthlyTotalChartAPIRes = {
+  status: string;
+  message?: string;
+  data?: {
+    count: number;
+  };
+};

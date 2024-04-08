@@ -13,6 +13,7 @@ import {
     updateTransaction,
     getTxnGroupedByCategory,
     txnGroupedByDate,
+    getMonthlyTxnTotalAmount,
 } from "../service/index.js";
 import {
     CreateTransactionPayload,
@@ -95,4 +96,9 @@ export async function txnGroupedByDateController(req: Request, res: Response) {
         })
     }
     return createSuccessResponse(req, res, 200, "", result)
+}
+
+export async function txnMonthlyTotal(req: Request, res: Response) {
+    const { data, error } = await getMonthlyTxnTotalAmount(4)
+    return createSuccessResponse(req, res, 200, "", { count: data})
 }

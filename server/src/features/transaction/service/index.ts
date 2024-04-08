@@ -107,3 +107,17 @@ export async function txnGroupedByDate() {
 
     return { data, error }
 }
+
+export async function getMonthlyTxnTotalAmount(month_param: number) {
+    const { data, error } = await supabase.rpc('get_total_amount_by_month', {month_param: month_param})
+
+
+    if (error) {
+        logger.error({
+            error,
+            message: "Something went wrong when updating account balance",
+        });
+    }
+
+    return { data, error }
+}
