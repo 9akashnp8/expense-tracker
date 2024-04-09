@@ -8,5 +8,5 @@ const baseQuery = fetchBaseQuery({
 
 export const apiSlice = createApi({
   baseQuery,
-  endpoints: (builder) => ({}), // eslint-disable @typescript-eslint/no-unused-vars
+  endpoints: (_) => ({}), // eslint-disable @typescript-eslint/no-unused-vars
 });

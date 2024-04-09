@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/index.js",
+    "start": "node dist/src/app.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/app.js\"",
     "test": "jest",
     "lint": "eslint src/**/*.ts",
