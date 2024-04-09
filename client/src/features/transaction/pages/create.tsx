@@ -53,7 +53,10 @@ export default function TransactionCreatePage() {
     const item = e.target["item"].value;
     const amount = +e.target["amount"].value;
     const account = +e.target["account"].value;
-    const isExpense = document.getElementsByName("isExpense")[0].checked;
+    const isExpenseEl = document.getElementsByName(
+      "isExpense",
+    )[0] as HTMLInputElement;
+    const isExpense = isExpenseEl.checked;
     const category = +e.target["category"].value;
     const label = +e.target["label"].value;
     const notes = e.target["notes"].value;

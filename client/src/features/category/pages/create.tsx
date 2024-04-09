@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function CreateCategoryPage() {
   const navigate = useNavigate();
-  const { data: categoryGroups, isLoading } = useListCategoryGroupsQuery();
+  const { data: categoryGroups } = useListCategoryGroupsQuery();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async function handleSubmit(e: any) {
