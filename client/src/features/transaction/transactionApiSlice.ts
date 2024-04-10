@@ -9,17 +9,17 @@ import {
 const transactionApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     listTransactions: builder.query<TxnListAPIRes, void>({
-      query: () => "http://localhost:3000/transaction",
+      query: () => "transactions",
     }),
     getCategoryWiseCount: builder.query<TxnCategoryChartAPIRes, void>({
-      query: () => "http://localhost:3000/transaction/groupedByCategory",
+      query: () => "transactions/groupedByCategory",
     }),
     getDatewiseCount: builder.query<TxnDateChartDataAPIRes, void>({
-      query: () => "http://localhost:3000/transaction/groupedByDate",
+      query: () => "transactions/groupedByDate",
     }),
     getMonthlyTotal: builder.query<TxnMonthlyTotalChartAPIRes, number | string>(
       {
-        query: () => "http://localhost:3000/transaction/monthlyTotal",
+        query: () => "transactions/monthlyTotal",
       },
     ),
   }),

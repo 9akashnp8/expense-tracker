@@ -7,10 +7,10 @@ import { apiSlice } from "../api/apiSlice";
 export const categoryGroupApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     listCategoryGroups: builder.query<CategoryGroupListAPIRes, void>({
-      query: () => "/categoryGroup",
+      query: () => "/category-groups",
     }),
     getCategoryGroup: builder.query<CategoryGroupDetailAPIRes, string>({
-      query: (id) => `/categoryGroup/${id}`,
+      query: (id) => `/category-groups/${id}`,
     }),
   }),
 });
