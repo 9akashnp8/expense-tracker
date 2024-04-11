@@ -1,10 +1,6 @@
 import ActionButton from "../components/ActionButton";
 import SummaryWidget from "../components/SummaryWidget";
-import {
-  useGetCategoryWiseCountQuery,
-  useGetDatewiseCountQuery,
-  useGetMonthlyTotalQuery,
-} from "../../transaction/transactionApiSlice";
+import { useGetChartDataQuery } from "../../transaction/transactionApiSlice";
 
 import { useNavigate } from "react-router-dom";
 import {
@@ -24,9 +20,14 @@ export default function HomePage() {
   const navigate = useNavigate();
   const currMonth = new Date().getMonth() + 1;
   const CATEGORY_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
-  const { data, isLoading } = useGetCategoryWiseCountQuery();
-  const { data: dateWiseData } = useGetDatewiseCountQuery();
-  const { data: monthlyTotal } = useGetMonthlyTotalQuery(currMonth);
+  const charts = [
+    { chart: "monthlySummary", data: currMonth },
+    { chart: "weeklySplit", data: null },
+    { chart: "categorySplit", data: null },
+  ];
+  const { data: chartData, isLoading } = useGetChartDataQuery(
+    JSON.stringify(charts),
+  );
 
   if (isLoading) {
     return <p>Loading...</p>;
@@ -36,9 +37,9 @@ export default function HomePage() {
     <>
       <SummaryWidget
         title="this months spend"
-        summary={`₹ ${monthlyTotal?.data?.count}`}
+        summary={`₹ ${chartData?.data["monthlySummary"]}`}
       />
-      <LineChart width={300} height={300} data={dateWiseData?.data}>
+      <LineChart width={300} height={300} data={chartData?.data["weeklySplit"]}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="txn_date_time" />
         <YAxis allowDecimals={false} />
@@ -55,12 +56,12 @@ export default function HomePage() {
         <Pie
           dataKey="transaction_count"
           isAnimationActive={false}
-          data={data?.data}
+          data={chartData?.data["categorySplit"]}
           outerRadius={80}
           fill="#8884d8"
           label={({ name }) => name}
         >
-          {data?.data?.map((_, index: number) => {
+          {chartData?.data["categorySplit"]?.map((_, index: number) => {
             return <Cell key={index} fill={CATEGORY_COLORS[index]} />;
           })}
         </Pie>

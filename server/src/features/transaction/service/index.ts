@@ -7,6 +7,8 @@ import {
 } from "../types.js";
 import { logger as rootLogger } from "../../common/utils/logger.js";
 
+import { format } from "date-fns";
+
 const logger = rootLogger.child({ feature: "transaction" });
 
 export async function listTransaction() {
@@ -91,7 +93,7 @@ export async function getTxnGroupedByCategory() {
         });
     }
 
-    return { data, error }
+    return { chart: "categorySplit", data, error }
 }
 
 export async function txnGroupedByDate() {
@@ -105,7 +107,25 @@ export async function txnGroupedByDate() {
         });
     }
 
-    return { data, error }
+    const result = []
+    const weekBeforeDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+    for (let i = 0; i <= 7; i++) {
+        let date = new Date(weekBeforeDate.setDate(weekBeforeDate.getDate() + 1))
+        const x = data?.filter((item) => {
+            const d = new Date(item.txn_date_time)
+            return (
+                d.getFullYear() === date.getFullYear() &&
+                d.getMonth() === date.getMonth() &&
+                d.getDate() === date.getDate()
+            )
+        }) 
+        result.push({
+            "txn_date_time": format(date, "do 'of' MMMM"),
+            "count": x && (x[0]?.count || 0)
+        })
+    }
+
+    return { chart: "weeklySplit", data: result, error }
 }
 
 export async function getMonthlyTxnTotalAmount(month_param: number) {
@@ -119,5 +139,5 @@ export async function getMonthlyTxnTotalAmount(month_param: number) {
         });
     }
 
-    return { data, error }
+    return { chart: "monthlySummary", data, error }
 }

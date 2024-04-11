@@ -19,6 +19,7 @@ import {
     CreateTransactionPayload,
     UpdateTransactionPayload,
 } from "../types.js";
+import { match } from "assert";
 
 export async function listTransactionController(req: Request, res: Response) {
     const { data, error } = await listTransaction();
@@ -71,34 +72,28 @@ export async function deleteTransactionController(req: Request, res: Response) {
     return createSuccessResponse(req, res, 204);
 }
 
-export async function txnGroupedByCategoryController(req: Request, res: Response) {
-    const { data } = await getTxnGroupedByCategory();
+export async function txnChartController(req: Request<{}, {}, {}, {requestFor: string}>, res: Response) {
+    const requestFor = req.query.requestFor
+    const parsedRequestFor: Array<any> = JSON.parse(requestFor)
+
+    let data = {}
+    let promises: Array<any> = []
+    parsedRequestFor.forEach((requestFor) => {
+        switch (requestFor.chart) {
+            case "monthlySummary":
+                const month = requestFor.data
+                promises.push(getMonthlyTxnTotalAmount(month!))
+            case "weeklySplit":
+                promises.push(txnGroupedByDate())
+            case "categorySplit":
+                promises.push(getTxnGroupedByCategory())
+        }
+    })
+
+    const responses = await Promise.all(promises)
+    responses.forEach((response) => {
+        data = { [response.chart]: response.data, ...data}
+    })
+
     return createSuccessResponse(req, res, 200, "", data)
-}
-
-export async function txnGroupedByDateController(req: Request, res: Response) {
-    const { data } = await txnGroupedByDate();
-    const result = []
-    const weekBeforeDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
-    for (let i = 0; i <= 7; i++) {
-        let date = new Date(weekBeforeDate.setDate(weekBeforeDate.getDate() + 1))
-        const x = data?.filter((item) => {
-            const d = new Date(item.txn_date_time)
-            return (
-                d.getFullYear() === date.getFullYear() &&
-                d.getMonth() === date.getMonth() &&
-                d.getDate() === date.getDate()
-            )
-        }) 
-        result.push({
-            "txn_date_time": format(date, "do 'of' MMMM"),
-            "count": x && (x[0]?.count || 0)
-        })
-    }
-    return createSuccessResponse(req, res, 200, "", result)
-}
-
-export async function txnMonthlyTotal(req: Request, res: Response) {
-    const { data, error } = await getMonthlyTxnTotalAmount(4)
-    return createSuccessResponse(req, res, 200, "", { count: data})
 }

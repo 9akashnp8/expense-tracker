@@ -22,27 +22,7 @@ export type TxnCategoryChartData = {
   transaction_count: number;
 };
 
-export type TxnCategoryChartAPIRes = {
-  status: string;
-  message?: string;
-  data?: TxnCategoryChartData[];
-};
-
 export type TxnDateChartData = {
   txn_date_time: number;
   count: string;
-};
-
-export type TxnDateChartDataAPIRes = {
-  status: string;
-  message?: string;
-  data?: TxnDateChartData[];
-};
-
-export type TxnMonthlyTotalChartAPIRes = {
-  status: string;
-  message?: string;
-  data?: {
-    count: number;
-  };
 };
