@@ -1,5 +1,6 @@
 import { useListLabelsQuery } from "../labelApiSlice";
 import ActionButton from "../../core/components/ActionButton";
+import LabelDetailCard from "../components/LabelDetailCard";
 
 import { useNavigate } from "react-router-dom";
 
@@ -15,7 +16,9 @@ export default function LabelListPage() {
     <>
       <h1>Label List Page</h1>
       <ul>
-        {labels?.data?.map((label) => <li key={label.id}>{label.name}</li>)}
+        {labels?.data?.map((label) => (
+          <LabelDetailCard key={label.id} name={label.name} id={label.id} />
+        ))}
       </ul>
       <ActionButton content="+" onClick={() => navigate("create")} />
     </>
