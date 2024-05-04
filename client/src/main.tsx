@@ -23,6 +23,7 @@ import TransactionListPage from "./features/transaction/pages/list.tsx";
 import TransactionCreatePage from "./features/transaction/pages/create.tsx";
 import RecurringRoot from "./features/recurring/pages/index.tsx";
 import RecurringConfigListPage from "./features/recurring/pages/list.tsx";
+import CreateRecurringConfig from "./features/recurring/pages/create.tsx";
 
 import "./styles/radix.css";
 import "./styles/custom.css";
@@ -119,6 +120,10 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <RecurringConfigListPage />,
+          },
+          {
+            path: "create",
+            element: <CreateRecurringConfig />,
           },
         ],
       },

@@ -6,7 +6,15 @@ const recurringApiSlice = apiSlice.injectEndpoints({
     listConfigs: builder.query<RecurringConfigListAPIResponse, void>({
       query: () => "/recurring",
     }),
+    createConfig: builder.mutation({
+      query: (payload) => ({
+        url: "/recurring",
+        method: "POST",
+        body: payload,
+      }),
+    }),
   }),
 });
 
-export const { useListConfigsQuery } = recurringApiSlice;
+export const { useListConfigsQuery, useCreateConfigMutation } =
+  recurringApiSlice;
