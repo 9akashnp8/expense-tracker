@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { CssBaseline } from "@mui/material";
 import { Provider } from "react-redux";
+import { Theme } from "@radix-ui/themes";
 
 import { store } from "./features/core/store.ts";
 import Root from "./features/core/routes/root.tsx";
@@ -27,6 +28,7 @@ import CreateRecurringConfig from "./features/recurring/pages/create.tsx";
 
 import "./styles/radix.css";
 import "./styles/custom.css";
+import "@radix-ui/themes/styles.css";
 import CategoryRoot from "./features/category/pages/index.tsx";
 import CreateLabelPage from "./features/label/pages/create.tsx";
 
@@ -134,8 +136,10 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <Provider store={store}>
-      <CssBaseline />
-      <RouterProvider router={router} />
+      <Theme>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </Theme>
     </Provider>
   </React.StrictMode>,
 );
