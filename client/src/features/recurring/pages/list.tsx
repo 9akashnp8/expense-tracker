@@ -1,18 +1,26 @@
 import { useListConfigsQuery } from "../recurringApiSlice";
+import CountCard from "../components/CountCard";
 
 import { Table } from "@radix-ui/themes";
+import { Spinner } from "@radix-ui/themes";
+import { Flex } from "@radix-ui/themes";
 
 export default function RecurringConfigListPage() {
   const { data: configs, isLoading } = useListConfigsQuery();
 
   if (isLoading) {
-    return <p>Loading...</p>;
+    return <Spinner />;
   }
 
   return (
     <>
       <h1>Recurring Configs</h1>
-      <Table.Root size="3" variant="surface">
+      <Flex align="stretch" gap="5">
+        <CountCard name="Subscriptions" value={12000} />
+        <CountCard name="Transfers" value={10500} />
+        <CountCard name="Others" value={500} />
+      </Flex>
+      <Table.Root size="3" variant="surface" mt="5">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>
