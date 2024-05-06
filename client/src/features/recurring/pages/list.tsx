@@ -1,4 +1,4 @@
-import { useListConfigsQuery } from "../recurringApiSlice";
+import { useListConfigsQuery, useGetStatsQuery } from "../recurringApiSlice";
 import CountCard from "../components/CountCard";
 
 import { Table } from "@radix-ui/themes";
@@ -7,6 +7,7 @@ import { Flex } from "@radix-ui/themes";
 
 export default function RecurringConfigListPage() {
   const { data: configs, isLoading } = useListConfigsQuery();
+  const { data: stats } = useGetStatsQuery();
 
   if (isLoading) {
     return <Spinner />;

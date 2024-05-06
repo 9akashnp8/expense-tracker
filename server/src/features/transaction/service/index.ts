@@ -111,7 +111,7 @@ export async function txnGroupedByDate() {
     const weekBeforeDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
     for (let i = 0; i <= 7; i++) {
         let date = new Date(weekBeforeDate.setDate(weekBeforeDate.getDate() + 1))
-        const x = data?.filter((item) => {
+        const x = data?.filter((item: any) => {
             const d = new Date(item.txn_date_time)
             return (
                 d.getFullYear() === date.getFullYear() &&

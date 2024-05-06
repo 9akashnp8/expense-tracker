@@ -16,3 +16,13 @@ export type RecurringConfigListAPIResponse = {
   message?: string;
   data?: RecurringConfig[];
 };
+
+export type RecurringStatsAPIResponse = {
+  status: string;
+  message?: string;
+  data?: {
+    transaction_type: string;
+    cycle: string;
+    total: string;
+  }[];
+};

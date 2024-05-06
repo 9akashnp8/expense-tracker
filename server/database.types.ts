@@ -175,6 +175,67 @@ export type Database = {
         }
         Relationships: []
       }
+      recurring: {
+        Row: {
+          amount: number | null
+          category: number
+          created_at: string
+          cycle: string | null
+          from_account: number
+          id: number
+          name: string | null
+          notes: string | null
+          to_account: number | null
+          transaction_type: string
+        }
+        Insert: {
+          amount?: number | null
+          category: number
+          created_at?: string
+          cycle?: string | null
+          from_account: number
+          id?: number
+          name?: string | null
+          notes?: string | null
+          to_account?: number | null
+          transaction_type: string
+        }
+        Update: {
+          amount?: number | null
+          category?: number
+          created_at?: string
+          cycle?: string | null
+          from_account?: number
+          id?: number
+          name?: string | null
+          notes?: string | null
+          to_account?: number | null
+          transaction_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recurring_category_fkey"
+            columns: ["category"]
+            isOneToOne: false
+            referencedRelation: "category"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_from_account_fkey"
+            columns: ["from_account"]
+            isOneToOne: false
+            referencedRelation: "account"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "recurring_to_account_fkey"
+            columns: ["to_account"]
+            isOneToOne: false
+            referencedRelation: "account"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       transaction: {
         Row: {
           account: number
@@ -259,6 +320,14 @@ export type Database = {
         Returns: {
           txn_date_time: string
           count: number
+        }[]
+      }
+      get_recurring_stats: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          transaction_type: string
+          cycle: string
+          total: string
         }[]
       }
       get_total_amount_by_month: {

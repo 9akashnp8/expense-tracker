@@ -18,3 +18,9 @@ export async function createRecurringConfig(payload: CreateRecurringConfigPayloa
 
   return { error}
 }
+
+export async function getRecurringStats() {
+  const { data, error } = await supabase.rpc("get_recurring_stats")
+
+  return { data, error }
+}

@@ -8,6 +8,7 @@ import {
 import {
   listRecurringConfigs,
   createRecurringConfig,
+  getRecurringStats,
 } from '../services/index.js'
 import type { CreateRecurringConfigPayload } from '../types.js';
 
@@ -32,4 +33,11 @@ export async function createRecurringConfigController(
 
   if (error) return createFailureResponse(req, res, 500, "", {})
   return createSuccessResponse(req, res, 200, "Recurring Config Created", {})
+}
+
+export async function getRecurringStatsController(req: Request, res: Response) {
+  const { data, error } = await getRecurringStats()
+
+  if (error) return createFailureResponse(req, res, 500)
+  return createSuccessResponse(req, res, 200, "", data)
 }
