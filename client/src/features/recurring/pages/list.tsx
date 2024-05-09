@@ -17,9 +17,34 @@ export default function RecurringConfigListPage() {
     <>
       <h1>Recurring Configs</h1>
       <Flex align="stretch" gap="5">
-        <CountCard name="Subscriptions" value={12000} />
-        <CountCard name="Transfers" value={10500} />
-        <CountCard name="Others" value={500} />
+        <CountCard
+          name="Subscriptions"
+          value={
+            Number(
+              stats?.data?.find(
+                (item) => item.transaction_type == "subscription",
+              )?.total,
+            ) || 0
+          }
+        />
+        <CountCard
+          name="Transfers"
+          value={
+            Number(
+              stats?.data?.find((item) => item.transaction_type == "transfer")
+                ?.total,
+            ) || 0
+          }
+        />
+        <CountCard
+          name="Others"
+          value={
+            Number(
+              stats?.data?.find((item) => item.transaction_type == "others")
+                ?.total,
+            ) || 0
+          }
+        />
       </Flex>
       <Table.Root size="3" variant="surface" mt="5">
         <Table.Header>
