@@ -1,3 +1,5 @@
+import { AppDataSource } from "../../../data-source.js";
+import { CategoryGroup } from "../../../entity/Category.js";
 import { supabase } from "../../common/supabase.js";
 
 import {
@@ -5,10 +7,12 @@ import {
     UpdateCategoryGroupPayload,
 } from "../types.js";
 
-export async function listCategoryGroup() {
-    const { data, error } = await supabase.from("category_group").select();
+const categoryGroupRepository = AppDataSource.getRepository(CategoryGroup)
 
-    return { data, error };
+export async function listCategoryGroup() {
+    const categoryGroups = await categoryGroupRepository.find()
+
+    return categoryGroups;
 }
 
 export async function getCategoryGroup(id: string) {
@@ -21,9 +25,22 @@ export async function getCategoryGroup(id: string) {
 }
 
 export async function createCategoryGroup(body: CreateCategoryGroupPayload) {
-    const { error } = await supabase.from("category_group").insert(body);
+    const categoryGroup = new CategoryGroup()
+    categoryGroup.name = body.name
+    categoryGroup.is_expense = body.is_expense || null
+    categoryGroup.is_budgeted = body.is_budgeted || null
+    categoryGroup.budget_type = body.budget_type || null
+    categoryGroup.budget = body.budget || null
 
-    return { error };
+    let record = undefined
+
+    try {
+        record = await categoryGroupRepository.save(categoryGroup)
+    } catch(err: any) {
+        console.error(`Something went wrong during creating category group: ${err}`)
+    }
+
+    return record
 }
 
 export async function updateCategoryGroup(

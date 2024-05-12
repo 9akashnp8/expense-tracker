@@ -17,9 +17,9 @@ import {
 } from "../types.js";
 
 export async function listCategoryGroupController(req: Request, res: Response) {
-    const { data, error } = await listCategoryGroup();
+    const data = await listCategoryGroup();
 
-    if (error) return createFailureResponse(req, res, 500);
+    if (!data) return createFailureResponse(req, res, 500);
     return createSuccessResponse(req, res, 200, "", data);
 }
 
@@ -41,10 +41,10 @@ export async function createCategoryGroupController(
     res: Response,
 ) {
     const { body } = req;
-    const { error } = await createCategoryGroup(body);
+    const data = await createCategoryGroup(body);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
-    return createSuccessResponse(req, res, 201, "", body);
+    if (!data) return createFailureResponse(req, res, 500, "");
+    return createSuccessResponse(req, res, 201, "", data);
 }
 
 export async function updateCategoryGroupController(
