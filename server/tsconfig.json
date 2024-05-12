@@ -12,6 +12,11 @@
     "strict": true,
     "outDir": "dist",
     "esModuleInterop": true, // fix ts-jest TS151001
+  
+    // For TypeORM
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
   },
   "include": ["src/**/*"],
 }
