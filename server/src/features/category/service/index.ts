@@ -1,36 +1,39 @@
-import { supabase } from "../../common/supabase.js";
+import { AppDataSource } from "../../../data-source.js";
 
 import { CreateCategoryPayload, UpdateCategoryPayload } from "../types.js";
+import { Category } from "../../../entity/Category.js";
 
 export async function listCategory() {
-    const { data, error } = await supabase.from("category").select();
-
-    return { data, error };
+    const categories = await AppDataSource
+        .manager
+        .find(Category)
+    return categories;
 }
 
 export async function getCategory(id: string) {
-    const { data, error } = await supabase
-        .from("category")
-        .select()
-        .eq("id", id);
-
-    return { data, error };
+    const category = await AppDataSource
+        .manager
+        .findOneBy(Category, { id: +id })
+    return category
 }
 
 export async function createCategory(body: CreateCategoryPayload) {
-    const { error } = await supabase.from("category").insert(body);
-
-    return { error };
+    const category = await AppDataSource
+        .manager
+        .insert(Category,  body)
+    return category
 }
 
 export async function updateCategory(id: string, body: UpdateCategoryPayload) {
-    const { error } = await supabase.from("category").update(body).eq("id", id);
-
-    return { error };
+    const updateResult = await AppDataSource
+        .manager
+        .update(Category, {id: +id}, body)
+    return updateResult
 }
 
 export async function deleteCategory(id: string) {
-    const { error } = await supabase.from("category").delete().eq("id", id);
-
-    return { error };
+    const deleteResult = await AppDataSource
+        .manager
+        .delete(Category, { id: +id})
+    return deleteResult
 }

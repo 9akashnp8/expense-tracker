@@ -11,12 +11,12 @@ export type CreateCategoryPayload = {
     name: string;
     group: number;
     is_budgeted: boolean;
-    budget?: string;
+    budget?: number;
 };
 
 export type UpdateCategoryPayload = {
     name?: string;
     group?: number;
     is_budgeted?: boolean;
-    budget?: string;
+    budget?: number;
 };

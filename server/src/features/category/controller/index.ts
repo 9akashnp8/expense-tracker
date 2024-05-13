@@ -14,10 +14,10 @@ import { CreateCategoryPayload, UpdateCategoryPayload } from "../types.js";
 import { ParamsDictionary } from "express-serve-static-core";
 
 export async function listCategoryController(req: Request, res: Response) {
-    const { data, error } = await listCategory();
+    const categories = await listCategory();
 
-    if (error) return createFailureResponse(req, res, 500);
-    return createSuccessResponse(req, res, 200, "", data);
+    if (!categories) return createFailureResponse(req, res, 500);
+    return createSuccessResponse(req, res, 200, "", categories);
 }
 
 export async function getCategoryController(
@@ -25,12 +25,11 @@ export async function getCategoryController(
     res: Response,
 ) {
     const { id } = req.params;
-    const { data, error } = await getCategory(id);
+    const category = await getCategory(id);
 
-    if (error) return createFailureResponse(req, res, 500);
-    else if (!data?.length)
+    if (!category)
         return createFailureResponse(req, res, 404, "not-found");
-    return createSuccessResponse(req, res, 200, "", data);
+    return createSuccessResponse(req, res, 200, "", category);
 }
 
 export async function createCategoryController(
@@ -38,10 +37,10 @@ export async function createCategoryController(
     res: Response,
 ) {
     const { body } = req;
-    const { error } = await createCategory(body);
+    const category = await createCategory(body);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
-    return createSuccessResponse(req, res, 201, "", body);
+    if (!category) return createFailureResponse(req, res, 500, "");
+    return createSuccessResponse(req, res, 201, "", category);
 }
 
 export async function updateCategoryController(
@@ -50,16 +49,20 @@ export async function updateCategoryController(
 ) {
     const { id } = req.params;
     const { body } = req;
-    const { error } = await updateCategory(id, body);
+    const updateResult = await updateCategory(id, body);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (updateResult.affected == 0) {
+        return createFailureResponse(req, res, 500, "no-rows-affected");
+    }
     return createSuccessResponse(req, res, 204);
 }
 
 export async function deleteCategoryController(req: Request, res: Response) {
     const { id } = req.params;
-    const { error } = await deleteCategory(id);
+    const deleteResult = await deleteCategory(id);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (deleteResult.affected == 0) {
+        return createFailureResponse(req, res, 500, "no-rows-affected");
+    }
     return createSuccessResponse(req, res, 204);
 }
