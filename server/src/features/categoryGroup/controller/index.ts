@@ -28,12 +28,11 @@ export async function getCategoryGroupController(
     res: Response,
 ) {
     const { id } = req.params;
-    const { data, error } = await getCategoryGroup(id);
+    const categoryGroups = await getCategoryGroup(id);
 
-    if (error) return createFailureResponse(req, res, 500);
-    else if (!data?.length)
+    if (categoryGroups.length == 0)
         return createFailureResponse(req, res, 404, "not-found");
-    return createSuccessResponse(req, res, 200, "", data[0]);
+    return createSuccessResponse(req, res, 200, "", categoryGroups[0]);
 }
 
 export async function createCategoryGroupController(
@@ -53,9 +52,11 @@ export async function updateCategoryGroupController(
 ) {
     const { id } = req.params; // TODO: ensure id is number
     const { body } = req;
-    const { error } = await updateCategoryGroup(id, body);
+    const categoryGroup = await updateCategoryGroup(id, body);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (categoryGroup.affected == 0) {
+        return createFailureResponse(req, res, 500, "no-rows-affected");
+    }
     return createSuccessResponse(req, res, 204);
 }
 
@@ -64,8 +65,10 @@ export async function deleteCategoryGroupController(
     res: Response,
 ) {
     const { id } = req.params;
-    const { error } = await deleteCategoryGroup(id);
+    const deleteResult = await deleteCategoryGroup(id);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (deleteResult.affected == 0) {
+        return createFailureResponse(req, res, 500, "no-rows-affected");
+    }
     return createSuccessResponse(req, res, 204);
 }

@@ -16,12 +16,9 @@ export async function listCategoryGroup() {
 }
 
 export async function getCategoryGroup(id: string) {
-    const { data, error } = await supabase
-        .from("category_group")
-        .select()
-        .eq("id", id);
+    const categoryGroups = await categoryGroupRepository.find({where: { id: +id}})
 
-    return { data, error };
+    return categoryGroups;
 }
 
 export async function createCategoryGroup(body: CreateCategoryGroupPayload) {
@@ -47,19 +44,21 @@ export async function updateCategoryGroup(
     id: string,
     body: UpdateCategoryGroupPayload,
 ) {
-    const { error } = await supabase
-        .from("category_group")
-        .update(body)
-        .eq("id", id);
+    const categoryGroup = await AppDataSource
+        .manager
+        .update(
+            CategoryGroup,
+            { id: +id },
+            body
+        )
 
-    return { error };
+    return categoryGroup
 }
 
 export async function deleteCategoryGroup(id: string) {
-    const { error } = await supabase
-        .from("category_group")
-        .delete()
-        .eq("id", id);
-
-    return { error };
+    const deleteResult = await AppDataSource
+        .manager
+        .delete(CategoryGroup, +id)
+    
+    return deleteResult
 }
