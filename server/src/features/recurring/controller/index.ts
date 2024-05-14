@@ -14,13 +14,13 @@ import type { CreateRecurringConfigPayload } from '../types.js';
 
 
 export async function listRecurringConfigsController(req: Request, res: Response) {
-  const { data, error } = await listRecurringConfigs()
+  const recurringConfigs = await listRecurringConfigs()
 
-  if (error) {
-    return createFailureResponse(req, res, 500, "", {})
+  if (!recurringConfigs) {
+    return createFailureResponse(req, res, 500, "")
   }
 
-  return createSuccessResponse(req, res, 200, "", data)
+  return createSuccessResponse(req, res, 200, "", recurringConfigs)
 }
 
 export async function createRecurringConfigController(
@@ -29,10 +29,10 @@ export async function createRecurringConfigController(
 ) {
   const { body } = req
 
-  const { error } = await createRecurringConfig(body)
+  const recurringConfig = await createRecurringConfig(body)
 
-  if (error) return createFailureResponse(req, res, 500, "", {})
-  return createSuccessResponse(req, res, 200, "Recurring Config Created", {})
+  if (!recurringConfig) return createFailureResponse(req, res, 500, "")
+  return createSuccessResponse(req, res, 200, "Recurring Config Created")
 }
 
 export async function getRecurringStatsController(req: Request, res: Response) {
