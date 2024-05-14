@@ -21,7 +21,7 @@ export default function CreateCategoryGroupPage() {
       budget_type: budgetType,
       budget: budget,
     };
-    const response = await fetch("http://localhost:3000/categoryGroup", {
+    const response = await fetch("http://localhost:3000/category-groups", {
       method: "POST",
       headers: {
         Accept: "application/json",

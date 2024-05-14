@@ -20,7 +20,7 @@ export default function CreateCategoryPage() {
       is_budgeted: isBudgeted,
       budget,
     };
-    const response = await fetch("http://localhost:3000/category", {
+    const response = await fetch("http://localhost:3000/categories", {
       method: "POST",
       headers: {
         Accept: "application/json",
