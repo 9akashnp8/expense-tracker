@@ -1,9 +1,9 @@
 import { useListConfigsQuery, useGetStatsQuery } from "../recurringApiSlice";
 import CountCard from "../components/CountCard";
 
-import { Table } from "@radix-ui/themes";
-import { Spinner } from "@radix-ui/themes";
-import { Flex } from "@radix-ui/themes";
+import { Heading, Table, Spinner, Flex, Button } from "@radix-ui/themes";
+import { PlusIcon } from "@radix-ui/react-icons";
+import { Link } from "react-router-dom";
 
 export default function RecurringConfigListPage() {
   const { data: configs, isLoading } = useListConfigsQuery();
@@ -15,15 +15,27 @@ export default function RecurringConfigListPage() {
 
   return (
     <>
-      <h1>Recurring Configs</h1>
+      <Flex justify={"between"} align="center">
+        <Heading as="h1" size="7">
+          Recurring Configs
+        </Heading>
+        <Link to="create">
+          <Button size="3">
+            <PlusIcon /> New Config
+          </Button>
+        </Link>
+      </Flex>
+      {/* <Separator my={"5"} style={{ width: "100%" }}/> */}
+      <Heading size="4" my="4" weight="medium">
+        Monthly Overview
+      </Heading>
       <Flex align="stretch" gap="5">
         <CountCard
           name="Subscriptions"
           value={
             Number(
-              stats?.data?.find(
-                (item) => item.transaction_type == "subscription",
-              )?.total,
+              stats?.data?.find((item) => item.transaction_type == "expense")
+                ?.total_amount,
             ) || 0
           }
         />
@@ -32,7 +44,7 @@ export default function RecurringConfigListPage() {
           value={
             Number(
               stats?.data?.find((item) => item.transaction_type == "transfer")
-                ?.total,
+                ?.total_amount,
             ) || 0
           }
         />
@@ -40,13 +52,16 @@ export default function RecurringConfigListPage() {
           name="Others"
           value={
             Number(
-              stats?.data?.find((item) => item.transaction_type == "others")
-                ?.total,
+              stats?.data?.find((item) => item.transaction_type == "income")
+                ?.total_amount,
             ) || 0
           }
         />
       </Flex>
-      <Table.Root size="3" variant="surface" mt="5">
+      <Heading size="4" my="4" weight="medium">
+        Configs
+      </Heading>
+      <Table.Root size="3" variant="surface">
         <Table.Header>
           <Table.Row>
             <Table.ColumnHeaderCell>Name</Table.ColumnHeaderCell>

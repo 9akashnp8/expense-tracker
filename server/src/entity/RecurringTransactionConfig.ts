@@ -31,7 +31,7 @@ export class RecurringTransactionConfig {
   @ManyToOne(() => Account, (account) => account.id, { nullable: true })
   to_account: number;
 
-  @Column() // TODO: FK to Category
+  @ManyToOne(() => Category, (account) => account.id)
   category: number;
 
   @Column("text")

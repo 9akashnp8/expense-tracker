@@ -22,7 +22,6 @@ export type RecurringStatsAPIResponse = {
   message?: string;
   data?: {
     transaction_type: string;
-    cycle: string;
-    total: string;
+    total_amount: string;
   }[];
 };

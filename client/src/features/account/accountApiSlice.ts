@@ -6,7 +6,13 @@ export const accountApiSlice = apiSlice.injectEndpoints({
     listAccounts: builder.query<IAccountResponse, void>({
       query: () => "/accounts",
     }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    listAccountTypes: builder.query<any, void>({
+      // eslint-disable-line @typescript-eslint/no-explicit-any
+      query: () => "/account-types",
+    }),
   }),
 });
 
-export const { useListAccountsQuery } = accountApiSlice;
+export const { useListAccountsQuery, useListAccountTypesQuery } =
+  accountApiSlice;

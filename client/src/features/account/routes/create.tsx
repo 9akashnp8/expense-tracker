@@ -1,4 +1,4 @@
-import { useListLabelsQuery } from "../../label/labelApiSlice";
+import { useListAccountTypesQuery } from "../accountApiSlice";
 import ActionButton from "../../core/components/ActionButton";
 
 import * as Label from "@radix-ui/react-label";
@@ -7,7 +7,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@radix-ui/react-icons";
 import { useNavigate } from "react-router-dom";
 
 function AccountTypeSelection() {
-  const { data: labels } = useListLabelsQuery();
+  const { data: accountTypes } = useListAccountTypesQuery();
   return (
     <Select.Root name="accountType">
       <Select.Trigger className="SelectTrigger" aria-label="Food">
@@ -22,9 +22,9 @@ function AccountTypeSelection() {
             <ChevronUpIcon />
           </Select.ScrollUpButton>
           <Select.Viewport className="SelectViewport">
-            {labels?.data?.map((label) => (
-              <Select.Item value={`${label.id}`} key={label.id}>
-                <Select.ItemText>{label.name}</Select.ItemText>
+            {accountTypes?.data?.map((accountType) => (
+              <Select.Item value={`${accountType.id}`} key={accountType.id}>
+                <Select.ItemText>{accountType.name}</Select.ItemText>
               </Select.Item>
             ))}
           </Select.Viewport>
@@ -56,7 +56,7 @@ export default function CreateAccount() {
       default_currency: defaultCurrency,
     };
 
-    const response = await fetch("http://localhost:3000/account", {
+    const response = await fetch("http://localhost:3000/accounts", {
       method: "POST",
       body: JSON.stringify(body),
       headers: {

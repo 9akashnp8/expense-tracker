@@ -6,7 +6,7 @@ import { Category } from "../../../entity/Category.js";
 export async function listCategory() {
     const categories = await AppDataSource
         .manager
-        .find(Category)
+        .find(Category, { relations: ['group'] })
     return categories;
 }
 

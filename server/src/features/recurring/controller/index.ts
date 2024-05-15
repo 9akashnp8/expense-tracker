@@ -36,8 +36,8 @@ export async function createRecurringConfigController(
 }
 
 export async function getRecurringStatsController(req: Request, res: Response) {
-  const { data, error } = await getRecurringStats()
+  const stats = await getRecurringStats()
 
-  if (error) return createFailureResponse(req, res, 500)
-  return createSuccessResponse(req, res, 200, "", data)
+  if (!stats) return createFailureResponse(req, res, 500)
+  return createSuccessResponse(req, res, 200, "", stats)
 }

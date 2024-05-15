@@ -1,10 +1,20 @@
 import { useListAccountsQuery } from "../../account/accountApiSlice";
 import { useListCategoriesQuery } from "../../category/categoryApiSlice";
-import { FormEvent } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 
 export default function CreateRecurringConfig() {
   const { data: accounts } = useListAccountsQuery();
   const { data: categories } = useListCategoriesQuery();
+  const [isExpense, setIsExpense] = useState<boolean>(true);
+
+  function handleTxnTypeChange(e: ChangeEvent<HTMLSelectElement>) {
+    const transactionType = e.target.value;
+    if (transactionType != "transfer") {
+      setIsExpense(true);
+    } else {
+      setIsExpense(false);
+    }
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -13,10 +23,10 @@ export default function CreateRecurringConfig() {
       name: e.target[0].value,
       transaction_type: e.target[1].value,
       cycle: e.target[2].value,
-      from_account: e.target[3].value,
-      to_account: e.target[4].value,
+      from_account: +e.target[3].value,
+      to_account: +e.target[4].value || null,
       amount: e.target[5].value,
-      category: e.target[6].value,
+      category: +e.target[6].value,
       notes: e.target[7].value,
     };
 
@@ -45,10 +55,14 @@ export default function CreateRecurringConfig() {
         </div>
         <div>
           <label htmlFor="transactionType">Transaction Type</label>
-          <select name="transactionType" id="transactionType">
-            <option value="subscription">Subscriptions</option>
-            <option value="investment">Investments</option>
-            <option value="others">Subscriptions</option>
+          <select
+            name="transactionType"
+            id="transactionType"
+            onChange={handleTxnTypeChange}
+          >
+            <option value="expense">Expense</option>
+            <option value="transfer">Transfer</option>
+            <option value="income">Income</option>
           </select>
         </div>
         <div>
@@ -61,6 +75,7 @@ export default function CreateRecurringConfig() {
         <div>
           <label htmlFor="debitAccount">Debit Account</label>
           <select name="debitAccount" id="debitAccount">
+            <option value={undefined}>Select Account</option>
             {accounts?.data?.map((account) => (
               <option key={account.id} value={account.id}>
                 {account.name}
@@ -68,9 +83,10 @@ export default function CreateRecurringConfig() {
             ))}
           </select>
         </div>
-        <div>
+        <div hidden={isExpense}>
           <label htmlFor="creditAccount">Credit Account</label>
-          <select name="creditAccount" id="creditAccount">
+          <select name="creditAccount" id="creditAccount" defaultValue="">
+            <option value={undefined}>Select Account</option>
             {accounts?.data?.map((account) => (
               <option key={account.id} value={account.id}>
                 {account.name}
