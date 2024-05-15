@@ -3,7 +3,10 @@ import {
   Column,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  ManyToOne,
 } from "typeorm";
+import { Account } from "./Account.js";
+import { Category } from "./Category.js";
 
 @Entity()
 export class RecurringTransactionConfig {
@@ -22,10 +25,10 @@ export class RecurringTransactionConfig {
   @Column("text")
   transaction_type: string;
 
-  @Column() // TODO: FK to Account
+  @ManyToOne(() => Account, (account) => account.id, { nullable: true })
   from_account: number;
 
-  @Column() // TODO: FK to Account
+  @ManyToOne(() => Account, (account) => account.id, { nullable: true })
   to_account: number;
 
   @Column() // TODO: FK to Category

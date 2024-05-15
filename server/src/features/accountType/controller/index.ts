@@ -12,10 +12,10 @@ import {
 import { Request, Response } from "express";
 
 export async function listAccountTypeController(req: Request, res: Response) {
-    const { data, error } = await listAccountType();
+    const accountTypes = await listAccountType();
 
-    if (error) return createFailureResponse(req, res, 500);
-    return createSuccessResponse(req, res, 200, "", data);
+    if (!accountTypes) return createFailureResponse(req, res, 500);
+    return createSuccessResponse(req, res, 200, "", accountTypes);
 }
 
 export async function getAccountTypeController(
@@ -23,12 +23,11 @@ export async function getAccountTypeController(
     res: Response,
 ) {
     const { id } = req.params;
-    const { data, error } = await getAccountType(id);
+    const accountType = await getAccountType(id);
 
-    if (error) return createFailureResponse(req, res, 500);
-    else if (!data?.length)
+    if (!accountType)
         return createFailureResponse(req, res, 404, "not-found");
-    return createSuccessResponse(req, res, 200, "", data);
+    return createSuccessResponse(req, res, 200, "", accountType);
 }
 
 export async function createAccountTypeController(
@@ -36,25 +35,25 @@ export async function createAccountTypeController(
     res: Response,
 ) {
     const { body } = req;
-    const { error } = await createAccountType(body);
+    const accountType = await createAccountType(body);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
-    return createSuccessResponse(req, res, 201, "", body);
+    if (!accountType) return createFailureResponse(req, res, 500, "");
+    return createSuccessResponse(req, res, 201, "", accountType);
 }
 
 export async function updateAccountTypeController(req: Request, res: Response) {
     const { id } = req.params;
     const { body } = req;
-    const { error } = await updateAccountType(id, body);
+    const updateResult = await updateAccountType(id, body);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (updateResult.affected == 0) return createFailureResponse(req, res, 500, "");
     return createSuccessResponse(req, res, 204);
 }
 
 export async function deleteAccountTypeController(req: Request, res: Response) {
     const { id } = req.params;
-    const { error } = await deleteAccountType(id);
+    const deleteResult = await deleteAccountType(id);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (deleteResult.affected == 0) return createFailureResponse(req, res, 500, "");
     return createSuccessResponse(req, res, 204);
 }

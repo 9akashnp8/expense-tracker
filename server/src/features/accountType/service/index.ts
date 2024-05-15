@@ -1,45 +1,46 @@
 import { supabase } from "../../common/supabase.js";
+import { AppDataSource } from "../../../data-source.js";
 
 import {
     CreateAccountTypePayload,
     UpdateAccountTypePayload,
 } from "../types.js";
+import { AccountType } from "../../../entity/Account.js";
 
 export async function listAccountType() {
-    const { data, error } = await supabase.from("account_type").select();
-
-    return { data, error };
+    const accountTypes = await AppDataSource
+        .manager
+        .find(AccountType)
+    return accountTypes
 }
 
 export async function getAccountType(id: string) {
-    const { data, error } = await supabase
-        .from("account_type")
-        .select()
-        .eq("id", id);
-
-    return { data, error };
+    const accountType = await AppDataSource
+        .manager
+        .findOneBy(AccountType, { id: +id })
+    return accountType
 }
 
 export async function createAccountType(body: CreateAccountTypePayload) {
-    const { error } = await supabase.from("account_type").insert(body);
-
-    return { error };
+    const accountType = await AppDataSource
+        .manager
+        .insert(AccountType, body)
+    return accountType
 }
 
 export async function updateAccountType(
     id: string,
     body: UpdateAccountTypePayload,
 ) {
-    const { error } = await supabase
-        .from("account_type")
-        .update(body)
-        .eq("id", id);
-
-    return { error };
+    const updateResult = await AppDataSource
+        .manager
+        .update(AccountType, { id: id }, body)
+    return updateResult
 }
 
 export async function deleteAccountType(id: string) {
-    const { error } = await supabase.from("account_type").delete().eq("id", id);
-
-    return { error };
+    const deleteResult = await AppDataSource
+        .manager
+        .delete(AccountType, { id: id })
+    return deleteResult
 }

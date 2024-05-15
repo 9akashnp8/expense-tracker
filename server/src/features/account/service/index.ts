@@ -1,40 +1,43 @@
 import { supabase } from "../../common/supabase.js";
+import { AppDataSource } from "../../../data-source.js";
 
 import { AccountCreatePayload, AccountUpdatePayload } from "../types.js";
+import { Account } from "../../../entity/Account.js";
 
 export async function listAccounts() {
-    const { data, error } = await supabase.from("account").select();
-
-    return { data, error };
+    const accounts = await AppDataSource
+        .manager
+        .find(Account)
+    return accounts
 }
 
 export async function getAccount(id: string | number) {
-    const { data, error } = await supabase
-        .from("account")
-        .select()
-        .eq("id", id);
-
-    return { data, error };
+    const account = await AppDataSource
+        .manager
+        .findOneBy(Account, { id: +id })
+    return account
 }
 
 export async function createAccount(body: AccountCreatePayload) {
-    // TODO: Change this
-    const { error } = await supabase.from("account").insert(body);
-
-    return { error };
+    const account = await AppDataSource
+        .manager
+        .insert(Account, body)
+    return account
 }
 
 export async function updateAccount(
     id: string | number,
     body: AccountUpdatePayload,
 ) {
-    const { error } = await supabase.from("account").update(body).eq("id", id);
-
-    return { error };
+    const updateResult = await AppDataSource
+        .manager
+        .update(Account, { id: +id }, body)
+    return updateResult;
 }
 
 export async function deleteAccount(id: number) {
-    const { error } = await supabase.from("account").delete().eq("id", id);
-
-    return { error };
+    const deleteResult = await AppDataSource
+        .manager
+        .delete(Account, { id: +id })
+    return deleteResult
 }

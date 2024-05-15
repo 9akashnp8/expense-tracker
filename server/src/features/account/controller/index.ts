@@ -20,16 +20,15 @@ import {
 const logger = rootLogger.child({ feature: "account" });
 
 export async function listAccountsController(req: Request, res: Response) {
-    const { data, error } = await listAccounts();
+    const account = await listAccounts();
 
-    if (error) {
+    if (!account) {
         logger.error({
-            error,
             message: "error when querying accounts",
         });
         return createFailureResponse(req, res, 500);
     }
-    return createSuccessResponse(req, res, 200, "", data);
+    return createSuccessResponse(req, res, 200, "", account);
 }
 
 export async function getAccountController(req: Request, res: Response) {
@@ -41,19 +40,13 @@ export async function getAccountController(req: Request, res: Response) {
     }
     const { data: id } = result;
 
-    const { data, error } = await getAccount(id);
+    const account = await getAccount(id);
 
-    if (error) {
-        logger.error({
-            error,
-            message: `error when querying account with id: ${id}`,
-        });
-        return createFailureResponse(req, res, 500);
-    } else if (!data?.length) {
+    if (!account) {
         logger.error({ message: `account with id: ${id} not found` });
         return createFailureResponse(req, res, 404, "not-found");
     }
-    return createSuccessResponse(req, res, 200, "", data);
+    return createSuccessResponse(req, res, 200, "", account);
 }
 
 export async function createAccountController(req: Request, res: Response) {
@@ -69,17 +62,16 @@ export async function createAccountController(req: Request, res: Response) {
     }
     const { data: body } = result;
 
-    const { error } = await createAccount(body);
+    const account = await createAccount(body);
 
-    if (error) {
+    if (!account) {
         logger.error({
-            error,
             message: "error when creating account",
             requestPayload: body,
         });
         return createFailureResponse(req, res, 500, "");
     }
-    return createSuccessResponse(req, res, 201, "", body);
+    return createSuccessResponse(req, res, 201, "", account);
 }
 
 export async function updateAccountController(req: Request, res: Response) {
@@ -96,11 +88,10 @@ export async function updateAccountController(req: Request, res: Response) {
     const { body } = result.data;
     const { id } = result.data.params;
 
-    const { error } = await updateAccount(id, body);
+    const updateResult = await updateAccount(id, body);
 
-    if (error) {
+    if (updateResult.affected == 0) {
         logger.error({
-            error,
             message: `error when updating account: ${id}`,
             requestPayload: body,
         });
@@ -118,11 +109,10 @@ export async function deleteAccountController(req: Request, res: Response) {
     }
     const { data: id } = result;
 
-    const { error } = await deleteAccount(id);
+    const deleteResult = await deleteAccount(id);
 
-    if (error) {
+    if (deleteResult.affected == 0) {
         logger.error({
-            error,
             message: `error when deleting account: ${id}`,
         });
         return createFailureResponse(req, res, 500, "");
