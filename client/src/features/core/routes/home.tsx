@@ -61,9 +61,11 @@ export default function HomePage() {
           fill="#8884d8"
           label={({ name }) => name}
         >
-          {chartData?.data["categorySplit"]?.map((_, index: number) => {
-            return <Cell key={index} fill={CATEGORY_COLORS[index]} />;
-          })}
+          {chartData?.data["categorySplit"]?.map(
+            (_: Array<Record<string, string | number>>, index: number) => {
+              return <Cell key={index} fill={CATEGORY_COLORS[index]} />;
+            },
+          )}
         </Pie>
       </PieChart>
       <ActionButton

@@ -6,7 +6,7 @@ type Props = {
 };
 
 export default function LabelDetailCard({ name, id }: Props) {
-  const [labelValue, setLabelValue] = useState(name);
+  const [labelValue] = useState(name);
 
   function handleClick(e: React.MouseEvent) {
     e.preventDefault();
@@ -19,7 +19,7 @@ export default function LabelDetailCard({ name, id }: Props) {
     labelEl?.focus();
   }
 
-  function handleCancel(e: React.MouseEvent) {
+  function handleCancel(_: React.MouseEvent) {
     const accepChange = document.getElementById("acceptChange");
     accepChange?.setAttribute("style", "display: none");
     const editButton = document.getElementById("editButton");

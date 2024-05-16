@@ -48,7 +48,7 @@ export async function createTransactionController(
     const { body } = req;
     const { error } = await createTransaction(body);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (error) return createFailureResponse(req, res, 500, "");
     return createSuccessResponse(req, res, 201, "", body);
 }
 

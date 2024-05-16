@@ -1,14 +1,12 @@
 import { apiSlice } from "../api/apiSlice";
-import { IAccountResponse } from "./types";
+import { IAccountResponse, IAccountTypeResponse } from "./types";
 
 export const accountApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     listAccounts: builder.query<IAccountResponse, void>({
       query: () => "/accounts",
     }),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    listAccountTypes: builder.query<any, void>({
-      // eslint-disable-line @typescript-eslint/no-explicit-any
+    listAccountTypes: builder.query<IAccountTypeResponse, void>({
       query: () => "/account-types",
     }),
   }),

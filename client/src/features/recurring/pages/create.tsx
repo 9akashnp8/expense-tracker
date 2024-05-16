@@ -19,15 +19,18 @@ export default function CreateRecurringConfig() {
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
+    const target = e.target as HTMLFormElement;
+    const formData = new FormData(target);
+
     const body = {
-      name: e.target[0].value,
-      transaction_type: e.target[1].value,
-      cycle: e.target[2].value,
-      from_account: +e.target[3].value,
-      to_account: +e.target[4].value || null,
-      amount: e.target[5].value,
-      category: +e.target[6].value,
-      notes: e.target[7].value,
+      name: formData.get("name"),
+      transaction_type: formData.get("transactionType"),
+      cycle: formData.get("transactionCycle"),
+      from_account: formData.get("debitAccount"),
+      to_account: formData.get("creditAccount"),
+      amount: formData.get("amount"),
+      category: formData.get("category"),
+      notes: formData.get("notes"),
     };
 
     const response = await fetch("http://localhost:3000/recurring", {
@@ -39,9 +42,7 @@ export default function CreateRecurringConfig() {
     });
 
     if (response.ok) {
-      for (let i = 0; i <= 6; i++) {
-        e.target[i].value = null;
-      }
+      target.reset();
     }
   }
 
