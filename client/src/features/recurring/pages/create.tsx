@@ -26,10 +26,10 @@ export default function CreateRecurringConfig() {
       name: formData.get("name"),
       transaction_type: formData.get("transactionType"),
       cycle: formData.get("transactionCycle"),
-      from_account: formData.get("debitAccount"),
-      to_account: formData.get("creditAccount"),
+      from_account: formData.get("debitAccount") || null,
+      to_account: formData.get("creditAccount") || null,
       amount: formData.get("amount"),
-      category: formData.get("category"),
+      category: formData.get("category") || null,
       notes: formData.get("notes"),
     };
 
@@ -76,7 +76,7 @@ export default function CreateRecurringConfig() {
         <div>
           <label htmlFor="debitAccount">Debit Account</label>
           <select name="debitAccount" id="debitAccount">
-            <option value={undefined}>Select Account</option>
+            <option value={""}>Select Account</option>
             {accounts?.data?.map((account) => (
               <option key={account.id} value={account.id}>
                 {account.name}
@@ -86,8 +86,8 @@ export default function CreateRecurringConfig() {
         </div>
         <div hidden={isExpense}>
           <label htmlFor="creditAccount">Credit Account</label>
-          <select name="creditAccount" id="creditAccount" defaultValue="">
-            <option value={undefined}>Select Account</option>
+          <select name="creditAccount" id="creditAccount">
+            <option value={""}>Select Account</option>
             {accounts?.data?.map((account) => (
               <option key={account.id} value={account.id}>
                 {account.name}
@@ -102,6 +102,7 @@ export default function CreateRecurringConfig() {
         <div>
           <label htmlFor="category">Category</label>
           <select name="category" id="category">
+            <option value={""}>Select Category</option>
             {categories?.data?.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name}

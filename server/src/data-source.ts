@@ -2,6 +2,7 @@ import { DataSource } from "typeorm"
 import { RecurringTransactionConfig } from "./entity/RecurringTransactionConfig.js"
 import { Category, CategoryGroup } from "./entity/Category.js"
 import { AccountType, Account } from "./entity/Account.js"
+import { Label } from "./entity/Label.js"
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -16,6 +17,7 @@ export const AppDataSource = new DataSource({
     RecurringTransactionConfig,
     AccountType,
     Account,
+    Label,
   ],
   synchronize: true,
   logging: false,
