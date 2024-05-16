@@ -14,10 +14,10 @@ import {
 } from "../service/index.js";
 
 export async function listLabelController(req: Request, res: Response) {
-    const { data, error } = await listLabel();
+    const labels = await listLabel();
 
-    if (error) return createFailureResponse(req, res, 500);
-    return createSuccessResponse(req, res, 200, "", data);
+    if (!labels) return createFailureResponse(req, res, 500);
+    return createSuccessResponse(req, res, 200, "", labels);
 }
 
 export async function getLabelController(
@@ -25,12 +25,11 @@ export async function getLabelController(
     res: Response,
 ) {
     const { id } = req.params;
-    const { data, error } = await getLabel(id);
+    const label = await getLabel(id);
 
-    if (error) return createFailureResponse(req, res, 500);
-    else if (!data?.length)
+    if (!label)
         return createFailureResponse(req, res, 404, "not-found");
-    return createSuccessResponse(req, res, 200, "", data);
+    return createSuccessResponse(req, res, 200, "", label);
 }
 
 export async function createLabelController(
@@ -38,10 +37,10 @@ export async function createLabelController(
     res: Response,
 ) {
     const { body } = req;
-    const { error } = await createLabel(body);
+    const label = await createLabel(body);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
-    return createSuccessResponse(req, res, 201, "", body);
+    if (!label) return createFailureResponse(req, res, 500, "");
+    return createSuccessResponse(req, res, 201, "", label);
 }
 
 export async function updateLabelController(
@@ -50,16 +49,16 @@ export async function updateLabelController(
 ) {
     const { id } = req.params;
     const { body } = req;
-    const { error } = await updateLabel(id, body);
+    const updateResult = await updateLabel(id, body);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (updateResult.affected == 0) return createFailureResponse(req, res, 500, "");
     return createSuccessResponse(req, res, 204);
 }
 
 export async function deleteLabelController(req: Request, res: Response) {
     const { id } = req.params;
-    const { error } = await deleteLabel(id);
+    const deleteResult = await deleteLabel(id);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (deleteResult.affected == 0) return createFailureResponse(req, res, 500, "");
     return createSuccessResponse(req, res, 204);
 }

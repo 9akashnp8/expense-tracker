@@ -1,33 +1,39 @@
 import { supabase } from "../../common/supabase.js";
-
+import { AppDataSource } from "../../../data-source.js";
+import { Label } from "../../../entity/Label.js";
 import { CreateLabelPayload, UpdateLabelPayload } from "../types.js";
 
 export async function listLabel() {
-    const { data, error } = await supabase.from("label").select();
-
-    return { data, error };
+    const labels = await AppDataSource
+        .manager
+        .find(Label)
+    return labels
 }
 
 export async function getLabel(id: string) {
-    const { data, error } = await supabase.from("label").select().eq("id", id);
-
-    return { data, error };
+    const label = await AppDataSource
+        .manager
+        .findOneBy(Label, { id: +id })
+    return label
 }
 
 export async function createLabel(body: CreateLabelPayload) {
-    const { error } = await supabase.from("label").insert(body);
-
-    return { error };
+    const label = await AppDataSource
+        .manager
+        .insert(Label, body)
+    return label
 }
 
 export async function updateLabel(id: string, body: UpdateLabelPayload) {
-    const { error } = await supabase.from("label").update(body).eq("id", id);
-
-    return { error };
+    const updateResult = await AppDataSource
+        .manager
+        .update(Label, { id: +id }, body)
+    return updateResult
 }
 
 export async function deleteLabel(id: string) {
-    const { error } = await supabase.from("label").delete().eq("id", id);
-
-    return { error };
+    const deleteResult = await AppDataSource
+        .manager
+        .delete(Label, { id: +id })
+    return deleteResult
 }
