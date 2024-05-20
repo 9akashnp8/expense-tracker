@@ -31,7 +31,7 @@ export default function RecurringConfigListPage() {
       </Heading>
       <Flex align="stretch" gap="5">
         <CountCard
-          name="Subscriptions"
+          name="Expense"
           value={
             Number(
               stats?.data?.find((item) => item.transaction_type == "expense")
@@ -40,7 +40,7 @@ export default function RecurringConfigListPage() {
           }
         />
         <CountCard
-          name="Transfers"
+          name="Transfer"
           value={
             Number(
               stats?.data?.find((item) => item.transaction_type == "transfer")
@@ -49,7 +49,7 @@ export default function RecurringConfigListPage() {
           }
         />
         <CountCard
-          name="Others"
+          name="Income"
           value={
             Number(
               stats?.data?.find((item) => item.transaction_type == "income")

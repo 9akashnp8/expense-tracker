@@ -5,14 +5,19 @@ import { ChangeEvent, FormEvent, useState } from "react";
 export default function CreateRecurringConfig() {
   const { data: accounts } = useListAccountsQuery();
   const { data: categories } = useListCategoriesQuery();
-  const [isExpense, setIsExpense] = useState<boolean>(true);
+  const [debitAccVis, setDebitAccVis] = useState<boolean>(true);
+  const [creditAccVis, setCreditAccVis] = useState<boolean>(false);
 
   function handleTxnTypeChange(e: ChangeEvent<HTMLSelectElement>) {
     const transactionType = e.target.value;
-    if (transactionType != "transfer") {
-      setIsExpense(true);
+    if (transactionType == "expense") {
+      setDebitAccVis(true);
+    } else if (transactionType == "income") {
+      setDebitAccVis(false);
+      setCreditAccVis(true);
     } else {
-      setIsExpense(false);
+      setDebitAccVis(true);
+      setCreditAccVis(true);
     }
   }
 
@@ -73,7 +78,7 @@ export default function CreateRecurringConfig() {
             <option value="yearly">Yearly</option>
           </select>
         </div>
-        <div>
+        <div hidden={!debitAccVis}>
           <label htmlFor="debitAccount">Debit Account</label>
           <select name="debitAccount" id="debitAccount">
             <option value={""}>Select Account</option>
@@ -84,7 +89,7 @@ export default function CreateRecurringConfig() {
             ))}
           </select>
         </div>
-        <div hidden={isExpense}>
+        <div hidden={!creditAccVis}>
           <label htmlFor="creditAccount">Credit Account</label>
           <select name="creditAccount" id="creditAccount">
             <option value={""}>Select Account</option>
