@@ -3,6 +3,7 @@ import { RecurringTransactionConfig } from "./entity/RecurringTransactionConfig.
 import { Category, CategoryGroup } from "./entity/Category.js"
 import { AccountType, Account } from "./entity/Account.js"
 import { Label } from "./entity/Label.js"
+import { CreditCardManager } from "./entity/CreditCardManager.js"
 
 export const AppDataSource = new DataSource({
   type: "postgres",
@@ -18,6 +19,7 @@ export const AppDataSource = new DataSource({
     AccountType,
     Account,
     Label,
+    CreditCardManager,
   ],
   synchronize: true,
   logging: false,
