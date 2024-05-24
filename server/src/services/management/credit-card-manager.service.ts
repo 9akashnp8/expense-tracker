@@ -8,21 +8,27 @@ import {
 export async function listCreditCardSettings() {
   const cardSettings = await AppDataSource
     .manager
-    .find(CreditCardManager)
+    .find(
+      CreditCardManager,
+      { relations: [ "card" ]}
+    )
   return cardSettings
 }
 
 export async function getCreditCardSetting(id: string) {
   const cardSetting = await AppDataSource
     .manager
-    .findOneBy(CreditCardManager, { id: +id })
+    .findOne(CreditCardManager, { where: { id: +id }, relations: [ "card" ]})
   return cardSetting
 }
 
 export async function createCreditCardSetting(body: CreateCreditCardSetting) {
-  const cardSetting = await AppDataSource
+  const insertResult = await AppDataSource
     .manager
     .insert(CreditCardManager, body)
+
+  const createdId = insertResult.identifiers[0]?.id
+  const cardSetting = await getCreditCardSetting(createdId)
   return cardSetting
 }
 

@@ -8,7 +8,7 @@ export type Account = {
   name: string;
   opening_date: string;
   starting_balance: string;
-  type: number;
+  type: AccountType;
 };
 
 export interface IAccountResponse extends IResponse {

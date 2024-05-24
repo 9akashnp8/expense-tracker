@@ -127,6 +127,19 @@ export default function SideDrawer({ children, ...props }: SideDrawerProps) {
             </ListItemButton>
           </ListItem>
         </Link>
+        <Link
+          to={"credit-card-settings"}
+          style={{ textDecoration: "none", color: "inherit" }}
+        >
+          <ListItem key={1} disablePadding>
+            <ListItemButton onClick={handleDrawerToggle}>
+              <ListItemIcon>
+                <InboxIcon />
+              </ListItemIcon>
+              <ListItemText primary={"Credit Card Settings"} />
+            </ListItemButton>
+          </ListItem>
+        </Link>
       </List>
     </div>
   );

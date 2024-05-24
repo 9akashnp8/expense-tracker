@@ -25,12 +25,17 @@ import TransactionCreatePage from "./features/transaction/pages/create.tsx";
 import RecurringRoot from "./features/recurring/pages/index.tsx";
 import RecurringConfigListPage from "./features/recurring/pages/list.tsx";
 import CreateRecurringConfig from "./features/recurring/pages/create.tsx";
+import CreditCardSettingListPage from "./features/creditCardManager/pages/list.tsx";
+import CreditCardManagerDetailPage from "./features/creditCardManager/pages/detail.tsx";
+import CreditCardManagerCreatePage from "./features/creditCardManager/pages/create.tsx";
+import UpdateCreditCardSettingPage from "./features/creditCardManager/pages/update.tsx";
 
 import "./styles/radix.css";
 import "./styles/custom.css";
 import "@radix-ui/themes/styles.css";
 import CategoryRoot from "./features/category/pages/index.tsx";
 import CreateLabelPage from "./features/label/pages/create.tsx";
+import CreditCardManagerRoot from "./features/creditCardManager/pages/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -127,6 +132,32 @@ const router = createBrowserRouter([
             path: "create",
             element: <CreateRecurringConfig />,
           },
+        ],
+      },
+      {
+        path: "/credit-card-settings",
+        element: <CreditCardManagerRoot />,
+        children: [
+          {
+            path: "",
+            element: <CreditCardSettingListPage />,
+          },
+          {
+            path: "create",
+            element: <CreditCardManagerCreatePage />,
+          },
+          {
+            path: ":id",
+            element: <CreditCardManagerDetailPage />,
+          },
+          {
+            path: ":id/update",
+            element: <UpdateCreditCardSettingPage />,
+          },
+          // {
+          //   path: "create",
+          //   element: <CreateRecurringConfig />,
+          // },
         ],
       },
     ],

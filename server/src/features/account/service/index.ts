@@ -7,7 +7,7 @@ import { Account } from "../../../entity/Account.js";
 export async function listAccounts() {
     const accounts = await AppDataSource
         .manager
-        .find(Account)
+        .find(Account, { relations: [ "type" ]})
     return accounts
 }
 
