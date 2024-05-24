@@ -1,13 +1,14 @@
 import { Outlet } from "react-router-dom";
 
-import SideDrawer from "../components/SideDrawer";
+import Drawer from "../../../components/Drawer";
 
 export default function Root() {
   return (
     <>
-      <SideDrawer window={window}>
+      <Drawer />
+      <main style={{ marginLeft: "250px" }}>
         <Outlet />
-      </SideDrawer>
+      </main>
     </>
   );
 }

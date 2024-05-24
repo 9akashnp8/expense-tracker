@@ -5,3 +5,9 @@
 .SummaryWidget-title {
   color: grey;
 }
+
+.dark {
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
