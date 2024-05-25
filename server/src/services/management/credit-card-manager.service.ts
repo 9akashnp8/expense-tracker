@@ -8,17 +8,65 @@ import {
 export async function listCreditCardSettings() {
   const cardSettings = await AppDataSource
     .manager
-    .find(
-      CreditCardManager,
-      { relations: [ "card" ]}
+    .createQueryBuilder(CreditCardManager, "credit_card_manager")
+    .select([
+      "cc_setting.id as id",
+      "cc_setting.created_date as created_date",
+      "cc_setting.card as card",
+      "cc_setting.desired_utilization_ratio as desired_utilization_ratio",
+      "cc_setting.credit_limit as credit_limit",
+      "cc_setting.reminder_date as reminder_date",
+    ])
+    .addSelect(
+      "ROUND((SUM(txn.amount)/cc_setting.credit_limit) * 100, 2)",
+      "current_utilization_ratio"
     )
+    .addSelect(
+      `json_build_object(
+        'id', acc.id,
+        'name', acc.name
+      )`,
+      "card"
+    )
+    .from("credit_card_manager", "cc_setting")
+    .innerJoin("cc_setting.card", "acc")
+    .innerJoin("transaction", "txn", "acc.id = txn.account")
+    .groupBy("cc_setting.id, acc.id")
+    .getRawMany()
+
   return cardSettings
 }
 
 export async function getCreditCardSetting(id: string) {
   const cardSetting = await AppDataSource
     .manager
-    .findOne(CreditCardManager, { where: { id: +id }, relations: [ "card" ]})
+    .createQueryBuilder(CreditCardManager, "credit_card_manager")
+    .setFindOptions({ where: { id: +id }})
+    .select([
+      "cc_setting.id as id",
+      "cc_setting.created_date as created_date",
+      "cc_setting.card as card",
+      "cc_setting.desired_utilization_ratio as desired_utilization_ratio",
+      "cc_setting.credit_limit as credit_limit",
+      "cc_setting.reminder_date as reminder_date",
+    ])
+    .addSelect(
+      "ROUND((SUM(txn.amount)/cc_setting.credit_limit) * 100, 2)",
+      "current_utilization_ratio"
+    )
+    .addSelect(
+      `json_build_object(
+        'id', acc.id,
+        'name', acc.name
+      )`,
+      "card"
+    )
+    .from("credit_card_manager", "cc_setting")
+    .innerJoin("cc_setting.card", "acc")
+    .innerJoin("transaction", "txn", "acc.id = txn.account")
+    .groupBy("cc_setting.id, acc.id")
+    .getRawOne()
+
   return cardSetting
 }
 

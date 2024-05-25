@@ -19,7 +19,7 @@ export default function CreditCardSettingListPage() {
             key={setting.id}
             card={setting.card}
             desired_utilization_ratio={setting.desired_utilization_ratio}
-            current_utilization_ratio={10}
+            current_utilization_ratio={setting.current_utilization_ratio}
           />
         ))}
       </ul>
