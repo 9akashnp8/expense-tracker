@@ -6,7 +6,7 @@ function DrawerMenuItem({ name }: { name: string }) {
 }
 export default function Drawer() {
   return (
-    <Dialog.Root open>
+    <Dialog.Root open modal={false}>
       <Dialog.Content className="DialogContent">
         <Link style={{ textDecoration: "none", color: "inherit" }} to={""}>
           <DrawerMenuItem name="Home" />
