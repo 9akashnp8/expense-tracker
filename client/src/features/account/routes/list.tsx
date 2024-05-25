@@ -1,8 +1,9 @@
-import { Box } from "@mui/material";
+import { Flex } from "@radix-ui/themes";
+import { useNavigate } from "react-router-dom";
+
 import { useListAccountsQuery } from "../accountApiSlice";
 import AccountDetailCard from "../components/AccountDetailCard";
 import ActionButton from "../../core/components/ActionButton";
-import { useNavigate } from "react-router-dom";
 
 export default function ListAccount() {
   const navigate = useNavigate();
@@ -10,20 +11,18 @@ export default function ListAccount() {
 
   return (
     <>
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: {
-            xs: "column",
-            md: "row",
-          },
-          gap: 3,
+      <Flex
+        direction={{
+          initial: "column",
+          xs: "column",
+          md: "row",
         }}
+        gap={"3"}
       >
         {data?.data.map((account) => (
           <AccountDetailCard key={account.id} account={account} />
         ))}
-      </Box>
+      </Flex>
       <ActionButton content="+" onClick={() => navigate("create")} />
     </>
   );

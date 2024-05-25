@@ -1,6 +1,4 @@
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import Typography from "@mui/material/Typography";
+import { Card, Flex, Text } from "@radix-ui/themes";
 
 import { Account } from "../../types";
 
@@ -13,19 +11,13 @@ export default function AccountDetailCard({ account }: Props) {
     Math.sign(account.latest_balance) === 1 ? "green" : "red";
 
   return (
-    <Card sx={{ flexGrow: 1 }}>
-      <CardContent
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography component="div">{account.name}</Typography>
-        <Typography sx={{ color: balanceColor }}>
+    <Card style={{ flexGrow: 1 }}>
+      <Flex align={"center"} justify={"between"}>
+        <Text as="div">{account.name}</Text>
+        <Text color={balanceColor}>
           {`${account.default_currency} ${account.latest_balance}`}
-        </Typography>
-      </CardContent>
+        </Text>
+      </Flex>
     </Card>
   );
 }
