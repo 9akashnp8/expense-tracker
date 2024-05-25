@@ -6,80 +6,84 @@ import {
     UpdateTransactionPayload,
 } from "../types.js";
 import { logger as rootLogger } from "../../common/utils/logger.js";
+import { AppDataSource } from "../../../data-source.js";
+import { Transaction } from "../../../entity/Transaction.js";
 
 import { format } from "date-fns";
 
 const logger = rootLogger.child({ feature: "transaction" });
 
 export async function listTransaction() {
-    const { data, error } = await supabase.from("transaction").select();
-
-    return { data, error };
+    const transactions = await AppDataSource
+        .manager
+        .find(
+            Transaction,
+            // { relations: [ "account", "category", "label" ]}
+        )
+    return transactions
 }
 
 export async function getTransaction(id: string) {
-    const { data, error } = await supabase
-        .from("transaction")
-        .select()
-        .eq("id", id);
-
-    return { data, error };
+    const transaction = await AppDataSource
+        .manager
+        .findOne(
+            Transaction,
+            { where: { id: +id }, relations: [ "account", "category", "label" ]}
+        )
+    return transaction
 }
 
 export async function createTransaction(body: CreateTransactionPayload) {
-    const { data: account, error: accError } = await getAccount(body.account);
-    if (accError) {
+    // Get initial account balance
+    const account = await getAccount(body.account);
+    if (!account) {
         logger.error({
-            error: accError,
             message: "Something went wrong when querying account",
         });
-        return { error: accError };
+        return { error: "account-not-found" };
     }
 
-    const originalBalance = account![0].latest_balance!;
+    // Calculate remaining balance
+    const originalBalance = account.latest_balance!;
     const remainingAccBalance = calcRemainingBalance(
         originalBalance,
         body.amount,
         body.is_expense,
     );
 
-    const { error } = await supabase.from("transaction").insert(body);
-    if (error) {
+    // Single Transaction to Create Transaction record and update
+    // respective Account records balance.
+    try {
+        await AppDataSource.manager.transaction(async (entityManager) => {
+            await entityManager.insert(Transaction, body)
+            await updateAccount(body.account, {
+                latest_balance: remainingAccBalance,
+            });
+        })
+    } catch (error) {
         logger.error({
-            error,
-            message: "Something went wrong when inserting transaction record",
-        });
-        return { error };
+            message: `Something went wrong when creating txn: ${error}`
+        })
+        return { error: error }
     }
-
-    const { error: accUpdateError } = await updateAccount(body.account, {
-        latest_balance: remainingAccBalance,
-    });
-    if (accUpdateError) {
-        logger.error({
-            error: accUpdateError,
-            message: "Something went wrong when updating account balance",
-        });
-    }
-    return { error: accUpdateError };
+    return {}
 }
 
 export async function updateTransaction(
     id: string,
     body: UpdateTransactionPayload,
 ) {
-    const { error } = await supabase
-        .from("transaction")
-        .update(body)
-        .eq("id", id);
-
-    return { error };
+    const updateResult = await AppDataSource
+        .manager
+        .update(Transaction, { id: +id }, body)
+    return updateResult
 }
 
 export async function deleteTransaction(id: string) {
-    const { error } = await supabase.from("transaction").delete().eq("id", id);
-
-    return { error };
+    const deleteResult = await AppDataSource
+        .manager
+        .delete(Transaction, { id: +id })
+    return deleteResult
 }
 
 export async function getTxnGroupedByCategory() {

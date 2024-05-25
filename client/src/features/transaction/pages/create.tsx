@@ -70,7 +70,7 @@ export default function TransactionCreatePage() {
       notes,
     };
 
-    const response = await fetch("http://localhost:3000/transaction", {
+    const response = await fetch("http://localhost:3000/transactions", {
       method: "POST",
       body: JSON.stringify(body),
       headers: {

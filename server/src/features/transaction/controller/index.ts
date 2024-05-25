@@ -19,13 +19,12 @@ import {
     CreateTransactionPayload,
     UpdateTransactionPayload,
 } from "../types.js";
-import { match } from "assert";
 
 export async function listTransactionController(req: Request, res: Response) {
-    const { data, error } = await listTransaction();
+    const transactions = await listTransaction();
 
-    if (error) return createFailureResponse(req, res, 500);
-    return createSuccessResponse(req, res, 200, "", data);
+    if (!transactions) return createFailureResponse(req, res, 500);
+    return createSuccessResponse(req, res, 200, "", transactions);
 }
 
 export async function getTransactionController(
@@ -33,12 +32,11 @@ export async function getTransactionController(
     res: Response,
 ) {
     const { id } = req.params;
-    const { data, error } = await getTransaction(id);
+    const transaction = await getTransaction(id);
 
-    if (error) return createFailureResponse(req, res, 500);
-    else if (!data?.length)
+    if (!transaction)
         return createFailureResponse(req, res, 404, "not-found");
-    return createSuccessResponse(req, res, 200, "", data);
+    return createSuccessResponse(req, res, 200, "", transaction);
 }
 
 export async function createTransactionController(
@@ -49,7 +47,7 @@ export async function createTransactionController(
     const { error } = await createTransaction(body);
 
     if (error) return createFailureResponse(req, res, 500, "");
-    return createSuccessResponse(req, res, 201, "", body);
+    return createSuccessResponse(req, res, 201);
 }
 
 export async function updateTransactionController(
@@ -58,17 +56,17 @@ export async function updateTransactionController(
 ) {
     const { id } = req.params;
     const { body } = req;
-    const { error } = await updateTransaction(id, body);
+    const updateResult = await updateTransaction(id, body);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (updateResult.affected == 0) return createFailureResponse(req, res, 500, "");
     return createSuccessResponse(req, res, 204);
 }
 
 export async function deleteTransactionController(req: Request, res: Response) {
     const { id } = req.params;
-    const { error } = await deleteTransaction(id);
+    const deleteResult = await deleteTransaction(id);
 
-    if (error) return createFailureResponse(req, res, 500, "", error);
+    if (deleteResult.affected == 0) return createFailureResponse(req, res, 500, "");
     return createSuccessResponse(req, res, 204);
 }
 
