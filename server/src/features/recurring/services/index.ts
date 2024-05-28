@@ -8,7 +8,10 @@ export async function listRecurringConfigs() {
     .manager
     .find(
       RecurringTransactionConfig,
-      { relations: ['from_account', 'to_account', 'category'], order: { 'amount': 'DESC' } }
+      {
+        relations: ['from_account', 'to_account', 'category'],
+        order: { 'amount': 'DESC' }
+      }
     )
   return recurringConfigs
 }

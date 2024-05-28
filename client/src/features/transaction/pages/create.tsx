@@ -2,19 +2,27 @@ import { useListAccountsQuery } from "../../account/accountApiSlice";
 import { useListLabelsQuery } from "../../label/labelApiSlice";
 import { useListCategoriesQuery } from "../../category/categoryApiSlice";
 
-import * as Switch from "@radix-ui/react-switch";
+import * as Form from "@radix-ui/react-form";
+import { Button, Select, Switch, TextArea } from "@radix-ui/themes";
+import { FormEvent } from "react";
 
 function AccountSelect() {
   const { data } = useListAccountsQuery();
 
   return (
-    <select name="account" id="account">
-      {data?.data?.map((account) => (
-        <option key={account.id} value={account.id}>
-          {account.name}
-        </option>
-      ))}
-    </select>
+    <Select.Root defaultValue="" name="account">
+      <Select.Trigger />
+      <Select.Content>
+        <Select.Group>
+          <Select.Label>Accounts</Select.Label>
+          {data?.data.map((account) => (
+            <Select.Item key={account.id} value={`${account.id}`}>
+              {account.name}
+            </Select.Item>
+          ))}
+        </Select.Group>
+      </Select.Content>
+    </Select.Root>
   );
 }
 
@@ -22,13 +30,19 @@ function CategorySelect() {
   const { data } = useListCategoriesQuery();
 
   return (
-    <select name="category" id="category">
-      {data?.data?.map((category) => (
-        <option key={category.id} value={category.id}>
-          {category.name}
-        </option>
-      ))}
-    </select>
+    <Select.Root defaultValue="" name="category">
+      <Select.Trigger />
+      <Select.Content>
+        <Select.Group>
+          <Select.Label>Category</Select.Label>
+          {data?.data?.map((category) => (
+            <Select.Item key={category.id} value={`${category.id}`}>
+              {category.name}
+            </Select.Item>
+          ))}
+        </Select.Group>
+      </Select.Content>
+    </Select.Root>
   );
 }
 
@@ -36,30 +50,40 @@ function LabelSelect() {
   const { data } = useListLabelsQuery();
 
   return (
-    <select name="label" id="label">
-      {data?.data?.map((label) => (
-        <option key={label.id} value={label.id}>
-          {label.name}
-        </option>
-      ))}
-    </select>
+    <Select.Root defaultValue="" name="label">
+      <Select.Trigger />
+      <Select.Content>
+        <Select.Group>
+          <Select.Label>Label</Select.Label>
+          {data?.data?.map((label) => (
+            <Select.Item key={label.id} value={`${label.id}`}>
+              {label.name}
+            </Select.Item>
+          ))}
+        </Select.Group>
+      </Select.Content>
+    </Select.Root>
   );
 }
 
 export default function TransactionCreatePage() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  async function handleSubmit(e: any) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    const item = e.target["item"].value;
-    const amount = +e.target["amount"].value;
-    const account = +e.target["account"].value;
+
+    const target = e.target as HTMLFormElement;
+    const formData = new FormData(target);
+
+    const item = formData.get("item");
+    const amount = Number(formData.get("amount"));
+    const account = Number(formData.get("account"));
     const isExpenseEl = document.getElementsByName(
       "isExpense",
     )[0] as HTMLInputElement;
     const isExpense = isExpenseEl.checked;
-    const category = +e.target["category"].value;
-    const label = +e.target["label"].value;
-    const notes = e.target["notes"].value;
+    const category = Number(formData.get("category"));
+    const label = Number(formData.get("label"));
+    const notes = formData.get("notes");
     const body = {
       item,
       amount,
@@ -87,41 +111,128 @@ export default function TransactionCreatePage() {
   return (
     <>
       <h1>Add Expense</h1>
-      <form method="POST" onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="item">Name</label>
-          <input type="text" name="item" id="item" required />
-        </div>
-        <div>
-          <label htmlFor="amount">Amount</label>
-          <input type="number" name="amount" id="amount" required />
-        </div>
-        <div>
-          <label htmlFor="account">Amount</label>
-          <AccountSelect />
-        </div>
-        <div>
-          <label htmlFor="isExpense" style={{ paddingRight: 15 }}>
-            Is Expense
-          </label>
-          <Switch.Root className="SwitchRoot" id="isExpense" name="isExpense">
-            <Switch.Thumb className="SwitchThumb" />
-          </Switch.Root>
-        </div>
-        <div>
-          <label htmlFor="category">Category</label>
-          <CategorySelect />
-        </div>
-        <div>
-          <label htmlFor="label">Label</label>
-          <LabelSelect />
-        </div>
-        <div>
-          <label htmlFor="notes">Notes</label>
-          <textarea id="notes" name="notes" rows={3} cols={10}></textarea>
-        </div>
-        <button>Add</button>
-      </form>
+      <Form.Root onSubmit={handleSubmit}>
+        <Form.Field className="FormField" name="item">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+            }}
+          >
+            <Form.Label className="FormLabel">Item</Form.Label>
+            <Form.Message className="FormMessage" match="valueMissing">
+              Please name the transaction
+            </Form.Message>
+          </div>
+          <Form.Control asChild>
+            <input className="Input" type="text" required />
+          </Form.Control>
+        </Form.Field>
+
+        <Form.Field className="FormField" name="amount">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+            }}
+          >
+            <Form.Label className="FormLabel">Amount</Form.Label>
+            <Form.Message className="FormMessage" match="valueMissing">
+              Please enter the amount
+            </Form.Message>
+          </div>
+          <Form.Control asChild>
+            <input className="Input" type="number" required />
+          </Form.Control>
+        </Form.Field>
+
+        <Form.Field className="FormField" name="account">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+            }}
+          >
+            <Form.Label className="FormLabel">Account</Form.Label>
+            <Form.Message className="FormMessage" match="valueMissing">
+              Please select the account
+            </Form.Message>
+          </div>
+          <Form.Control asChild>
+            <AccountSelect />
+          </Form.Control>
+        </Form.Field>
+
+        <Form.Field className="FormField" name="isExpense">
+          <Form.Label className="FormLabel">Is Expense</Form.Label>
+          <Form.Control asChild>
+            <Switch defaultChecked size={"3"} />
+          </Form.Control>
+        </Form.Field>
+
+        <Form.Field className="FormField" name="category">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+            }}
+          >
+            <Form.Label className="FormLabel">Category</Form.Label>
+            <Form.Message className="FormMessage" match="valueMissing">
+              Please select the category
+            </Form.Message>
+          </div>
+          <Form.Control asChild>
+            <CategorySelect />
+          </Form.Control>
+        </Form.Field>
+
+        <Form.Field className="FormField" name="label">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+            }}
+          >
+            <Form.Label className="FormLabel">Label</Form.Label>
+            <Form.Message className="FormMessage" match="valueMissing">
+              Please select the label
+            </Form.Message>
+          </div>
+          <Form.Control asChild>
+            <LabelSelect />
+          </Form.Control>
+        </Form.Field>
+
+        <Form.Field className="FormField" name="notes">
+          <div
+            style={{
+              display: "flex",
+              alignItems: "baseline",
+              justifyContent: "space-between",
+            }}
+          >
+            <Form.Label className="FormLabel">Notes</Form.Label>
+            <Form.Message className="FormMessage" match="valueMissing">
+              Please enter any notes
+            </Form.Message>
+          </div>
+          <Form.Control asChild>
+            <TextArea placeholder="Notes…" />
+          </Form.Control>
+        </Form.Field>
+
+        <Form.Submit asChild>
+          <Button style={{ marginTop: 10 }} size={"3"}>
+            Create Transaction
+          </Button>
+        </Form.Submit>
+      </Form.Root>
     </>
   );
 }
