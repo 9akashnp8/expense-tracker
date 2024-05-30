@@ -1,19 +1,12 @@
 import { Outlet } from "react-router-dom";
 
-import Drawer from "../../../components/Drawer";
+import NavMenu from "../../../components/NavMenu";
 
 export default function Root() {
   return (
-    <>
-      <Drawer />
-      <main
-        style={{
-          padding: "40px 40px 40px 330px",
-          flexGrow: 1,
-        }}
-      >
-        <Outlet />
-      </main>
-    </>
+    <div className="centerContainer">
+      <NavMenu />
+      <Outlet />
+    </div>
   );
 }
