@@ -8,6 +8,7 @@ import { router as categoryRouter } from "./features/category/routes.js";
 import { router as labelRouter } from "./features/label/routes.js";
 import { router as recurringRouter } from './features/recurring/routes.js'
 import { router as managementRouter } from "./routes/management/credit-card-manager.routes.js";
+import { router as analyticsRouter } from "./routes/analytics/dashboard-analytics.routes.js";
 
 export const router: Router = express.Router()
 router.use(express.json())
@@ -20,3 +21,4 @@ router.use("/categories", categoryRouter)
 router.use("/labels", labelRouter)
 router.use("/recurring", recurringRouter)
 router.use("/management/credit-card-settings", managementRouter)
+router.use("/analytics", analyticsRouter)
