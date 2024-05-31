@@ -6,7 +6,9 @@ export default function Root() {
   return (
     <div className="centerContainer">
       <NavMenu />
-      <Outlet />
+      <main style={{ margin: "1rem" }}>
+        <Outlet />
+      </main>
     </div>
   );
 }

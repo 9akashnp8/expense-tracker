@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import * as NavigationMenu from "@radix-ui/react-navigation-menu";
+import { Button } from "@radix-ui/themes";
 
 export default function NavMenu() {
   return (
@@ -7,7 +8,14 @@ export default function NavMenu() {
       <NavigationMenu.List className="NavigationMenuList">
         <NavigationMenu.Item>
           <NavigationMenu.Link asChild className="NavigationMenuLink">
-            <NavLink to={""}>Home</NavLink>
+            <NavLink to={"/transaction/create"}>
+              <Button>Add Expense</Button>
+            </NavLink>
+          </NavigationMenu.Link>
+        </NavigationMenu.Item>
+        <NavigationMenu.Item>
+          <NavigationMenu.Link asChild className="NavigationMenuLink">
+            <NavLink to={""}>Dashboard</NavLink>
           </NavigationMenu.Link>
         </NavigationMenu.Item>
         <NavigationMenu.Item>

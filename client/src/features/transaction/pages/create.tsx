@@ -3,7 +3,7 @@ import { useListLabelsQuery } from "../../label/labelApiSlice";
 import { useListCategoriesQuery } from "../../category/categoryApiSlice";
 
 import * as Form from "@radix-ui/react-form";
-import { Button, Select, Switch, TextArea } from "@radix-ui/themes";
+import { Button, Select, Text, TextArea, RadioCards } from "@radix-ui/themes";
 import { FormEvent } from "react";
 
 function AccountSelect() {
@@ -77,10 +77,7 @@ export default function TransactionCreatePage() {
     const item = formData.get("item");
     const amount = Number(formData.get("amount"));
     const account = Number(formData.get("account"));
-    const isExpenseEl = document.getElementsByName(
-      "isExpense",
-    )[0] as HTMLInputElement;
-    const isExpense = isExpenseEl.checked;
+    const isExpense = formData.get("isExpense") == "true" ? true : false;
     const category = Number(formData.get("category"));
     const label = Number(formData.get("label"));
     const notes = formData.get("notes");
@@ -110,7 +107,6 @@ export default function TransactionCreatePage() {
 
   return (
     <>
-      <h1>Add Expense</h1>
       <Form.Root onSubmit={handleSubmit}>
         <Form.Field className="FormField" name="item">
           <div
@@ -169,7 +165,17 @@ export default function TransactionCreatePage() {
         <Form.Field className="FormField" name="isExpense">
           <Form.Label className="FormLabel">Is Expense</Form.Label>
           <Form.Control asChild>
-            <Switch defaultChecked size={"3"} />
+            <RadioCards.Root
+              defaultValue="1"
+              columns={{ initial: "1", sm: "3" }}
+            >
+              <RadioCards.Item value="true">
+                <Text>Expense</Text>
+              </RadioCards.Item>
+              <RadioCards.Item value="false">
+                <Text>Income</Text>
+              </RadioCards.Item>
+            </RadioCards.Root>
           </Form.Control>
         </Form.Field>
 

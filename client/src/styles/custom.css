@@ -33,3 +33,10 @@ body {
   border-radius: 0.5rem;
 }
 
+#widgetWrapper {
+  border: 1px solid var(--green-5);
+  border-radius: 0.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
