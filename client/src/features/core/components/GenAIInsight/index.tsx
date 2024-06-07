@@ -1,8 +1,9 @@
+import { ReactNode } from "react";
 import { Callout, Flex, Text, Box } from "@radix-ui/themes";
 import { Link } from "react-router-dom";
 
 type Props = {
-  insight: string;
+  insight: string | ReactNode;
 };
 
 export default function GenAIInsight({ insight }: Props) {
