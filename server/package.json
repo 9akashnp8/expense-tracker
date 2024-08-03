@@ -1,11 +1,12 @@
 {
-  "name": "learn-express-ts",
-  "version": "1.0.0",
+  "name": "server",
+  "version": "0.0.0",
   "description": "",
   "main": "index.ts",
   "type": "module",
   "scripts": {
     "build": "npx tsc",
+    "check-types": "tsc --noEmit",
     "start": "node dist/src/app.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/src/app.js\"",
     "test": "jest",

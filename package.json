@@ -1,0 +1,23 @@
+{
+  "name": "expense-tracker",
+  "version": "0.0.0",
+  "description": "`git clone https://github.com/9akashnp8/expense-tracker.git`",
+  "main": "index.js",
+  "dependencies": {
+    "undici-types": "^5.26.5"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.9"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "packageManager": "npm@10.2.4",
+  "workspaces": [
+    "client",
+    "server"
+  ]
+}
